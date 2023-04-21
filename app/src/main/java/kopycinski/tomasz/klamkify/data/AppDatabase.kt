@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import kopycinski.tomasz.klamkify.data.dao.CategoryDao
 import kopycinski.tomasz.klamkify.data.entity.Category
 
-@Database(entities = [Category::class], version = 1)
+@Database(entities = [Category::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
 }
