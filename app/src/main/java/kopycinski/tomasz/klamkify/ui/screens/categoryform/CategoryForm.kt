@@ -1,4 +1,4 @@
-package kopycinski.tomasz.klamkify.ui.screens.categorycreate
+package kopycinski.tomasz.klamkify.ui.screens.categoryform
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
@@ -10,7 +10,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun CategoryCreateScreen(
     onSuccessSave: () -> Unit,
-    viewModel: CategoryCreateViewModel = hiltViewModel()
+    viewModel: CategoryFormViewModel = hiltViewModel()
 ) {
     Column {
         TextField(value = viewModel.categoryName.value, onValueChange = { viewModel.update(it) })

@@ -1,4 +1,4 @@
-package kopycinski.tomasz.klamkify.ui.screens.categorycreate
+package kopycinski.tomasz.klamkify.ui.screens.categoryform
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CategoryCreateViewModel @Inject constructor(
+class CategoryFormViewModel @Inject constructor(
     private val repository: CategoryRepository
 ): ViewModel() {
     var categoryName = mutableStateOf("")

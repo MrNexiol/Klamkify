@@ -6,21 +6,15 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import kopycinski.tomasz.klamkify.ui.screens.categories.CategoriesScreen
-import kopycinski.tomasz.klamkify.ui.screens.categorycreate.CategoryCreateScreen
-import kopycinski.tomasz.klamkify.ui.screens.sessions.SessionsScreen
+import kopycinski.tomasz.klamkify.ui.screens.categorylist.CategoryList
+import kopycinski.tomasz.klamkify.ui.screens.categoryform.CategoryCreateScreen
+import kopycinski.tomasz.klamkify.ui.screens.categorydetails.CategoryDetails
 
 @Composable
 fun Navigation(
     navController: NavHostController
 ) {
     NavHost(navController = navController, startDestination = "categories_screen") {
-        composable("categories_screen") {
-            CategoriesScreen(
-                onFabClick = { navController.navigate("new_category_screen") },
-                onItemClick = { navController.navigate("sessions_screen/$it") }
-            )
-        }
         composable("new_category_screen") {
             CategoryCreateScreen(
                 onSuccessSave = { navController.navigateUp() }
@@ -31,7 +25,16 @@ fun Navigation(
             arguments = listOf(navArgument("category_id") { type = NavType.LongType })
         ) {
             val id = it.arguments?.getLong("category_id")
-            SessionsScreen(id ?: 0L)
+            CategoryDetails(
+                categoryId = id ?: 0L,
+                onBackPress = { navController.navigateUp() }
+            )
+        }
+        composable("categories_screen") {
+            CategoryList(
+                onFabClick = { navController.navigate("new_category_screen") },
+                onItemClick = { navController.navigate("sessions_screen/$it") }
+            )
         }
     }
 }

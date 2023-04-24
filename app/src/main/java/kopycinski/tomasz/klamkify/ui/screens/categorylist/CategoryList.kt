@@ -1,4 +1,4 @@
-package kopycinski.tomasz.klamkify.ui.screens.categories
+package kopycinski.tomasz.klamkify.ui.screens.categorylist
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,10 +16,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import kopycinski.tomasz.klamkify.ui.components.CategoryItem
 
 @Composable
-fun CategoriesScreen(
+fun CategoryList(
     onFabClick: () -> Unit,
     onItemClick: (Long) -> Unit,
-    viewModel: CategoriesViewModel = hiltViewModel()
+    viewModel: CategoryListViewModel = hiltViewModel()
 ) {
     val categories by viewModel.categoryList
     val isTimerRunning by viewModel.isRunning

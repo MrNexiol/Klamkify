@@ -1,4 +1,4 @@
-package kopycinski.tomasz.klamkify.ui.screens.categories
+package kopycinski.tomasz.klamkify.ui.screens.categorylist
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CategoriesViewModel @Inject constructor(
+class CategoryListViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val sessionRepository: SessionRepository
 ) : ViewModel() {
