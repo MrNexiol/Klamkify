@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kopycinski.tomasz.klamkify.data.entity.Category
+import kopycinski.tomasz.klamkify.data.entity.Session
 import kopycinski.tomasz.klamkify.data.repository.CategoryRepository
+import kopycinski.tomasz.klamkify.data.repository.SessionRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -13,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoriesViewModel @Inject constructor(
-    private val categoryRepository: CategoryRepository
+    private val categoryRepository: CategoryRepository,
+    private val sessionRepository: SessionRepository
 ) : ViewModel() {
     private var timerJob: Job? = null
     var categoryList = mutableStateOf<List<Category>>(listOf())
@@ -35,11 +38,19 @@ class CategoriesViewModel @Inject constructor(
         startTimer()
     }
 
-    fun onStop() {
+    fun onStop(categoryId: Long) {
         activeCategoryID.value = -1
         isRunning.value = false
         stopTimer()
-        currentTime.value = 0
+        viewModelScope.launch {
+            sessionRepository.insert(
+                Session(
+                    timeInSeconds = currentTime.value,
+                    categoryId = categoryId
+                )
+            )
+            currentTime.value = 0
+        }
     }
 
     private fun startTimer() {

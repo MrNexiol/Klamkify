@@ -9,10 +9,15 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kopycinski.tomasz.klamkify.data.AppDatabase
 import kopycinski.tomasz.klamkify.data.dao.CategoryDao
+import kopycinski.tomasz.klamkify.data.dao.SessionDao
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+    @Provides
+    fun provideSessionDao(appDatabase: AppDatabase): SessionDao =
+        appDatabase.sessionDao()
+
     @Provides
     fun provideCategoryDao(appDatabase: AppDatabase): CategoryDao =
         appDatabase.categoryDao()

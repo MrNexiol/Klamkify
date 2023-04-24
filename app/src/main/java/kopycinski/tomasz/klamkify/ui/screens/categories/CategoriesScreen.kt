@@ -41,7 +41,7 @@ fun CategoriesScreen(
                     category = category,
                     currentTime = viewModel.currentTime.value,
                     onStart = { viewModel.onStart(index) },
-                    onStop = { viewModel.onStop() },
+                    onStop = { viewModel.onStop(category.categoryId) },
                     isActive = index == activeId,
                     disabled = isTimerRunning
                 )
