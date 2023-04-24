@@ -17,7 +17,8 @@ import kopycinski.tomasz.klamkify.ui.components.CategoryItem
 
 @Composable
 fun CategoriesScreen(
-    onCreateClick: () -> Unit,
+    onFabClick: () -> Unit,
+    onItemClick: (Long) -> Unit,
     viewModel: CategoriesViewModel = hiltViewModel()
 ) {
     val categories by viewModel.categoryList
@@ -30,7 +31,7 @@ fun CategoriesScreen(
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = onCreateClick) {
+            FloatingActionButton(onClick = onFabClick) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = "Add")
             }
         }
@@ -42,6 +43,7 @@ fun CategoriesScreen(
                     currentTime = viewModel.currentTime.value,
                     onStart = { viewModel.onStart(index) },
                     onStop = { viewModel.onStop(category.categoryId) },
+                    onClick = { onItemClick(category.categoryId) },
                     isActive = index == activeId,
                     disabled = isTimerRunning
                 )

@@ -8,4 +8,6 @@ class SessionRepository @Inject constructor(
     private val sessionDao: SessionDao
 ) {
     suspend fun insert(session: Session) = sessionDao.insert(session)
+
+    suspend fun getTotalTime(categoryId: Long) = sessionDao.getSumByCategoryId(categoryId)
 }

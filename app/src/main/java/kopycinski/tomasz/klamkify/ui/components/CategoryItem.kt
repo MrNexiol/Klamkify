@@ -1,5 +1,6 @@
 package kopycinski.tomasz.klamkify.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,11 +19,12 @@ fun CategoryItem(
     currentTime: Int = 0,
     onStart: () -> Unit = {},
     onStop: () -> Unit = {},
+    onClick: () -> Unit = {},
     isActive: Boolean = false,
     disabled: Boolean = false
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp).clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(text = category.name,
