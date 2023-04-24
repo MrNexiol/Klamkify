@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "833986078651",
+    "project_id": "klamkify",
+    "storage_bucket": "klamkify.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:833986078651:android:8cb5183e716784393f069e",
+        "android_client_info": {
+          "package_name": "kopycinski.tomasz.klamkify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "833986078651-7sra4k4qugiq6oqnml8i81e2qdagofmt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChzOnjS6ESf_Ub5_C_sk1zJIMxAkPKuTo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "833986078651-7sra4k4qugiq6oqnml8i81e2qdagofmt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
