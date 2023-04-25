@@ -13,6 +13,8 @@ import javax.inject.Inject
 class CategoryFormViewModel @Inject constructor(
     private val repository: CategoryRepository
 ): ViewModel() {
+    var categoryId = mutableStateOf(-1L)
+        private set
     var categoryName = mutableStateOf("")
         private set
 
@@ -21,9 +23,18 @@ class CategoryFormViewModel @Inject constructor(
     }
 
     fun save(onSuccess: () -> Unit) = viewModelScope.launch {
-        repository.insert(
-            Category(categoryName.value)
-        )
+        if (categoryId.value == -1L) {
+            repository.insert(Category(categoryName.value))
+        } else {
+            repository.update(Category(categoryName.value, archived = false, categoryId.value))
+        }
         onSuccess()
+    }
+
+    fun getCategory(id: Long) = viewModelScope.launch {
+        repository.getById(id).also {
+            categoryId.value = it.categoryId
+            categoryName.value = it.name
+        }
     }
 }

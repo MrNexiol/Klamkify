@@ -27,6 +27,7 @@ import kopycinski.tomasz.klamkify.usecase.FormatNumberAsTimeUseCase
 fun CategoryDetails(
     categoryId: Long,
     onBackPress: () -> Unit,
+    onEdit: (Long) -> Unit,
     onDelete: () -> Unit,
     viewModel: CategoryDetailsViewModel = hiltViewModel()
 ) {
@@ -48,7 +49,7 @@ fun CategoryDetails(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { onEdit(categoryId) }) {
                         Icon(imageVector = Icons.Filled.Edit, contentDescription = "")
                     }
                     IconButton(onClick = { showDialog = true }) {
