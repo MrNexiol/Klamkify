@@ -29,7 +29,7 @@ class CategoryListViewModel @Inject constructor(
         private set
 
     fun update() = viewModelScope.launch {
-        categoryList.value = categoryRepository.getAll()
+        categoryList.value = categoryRepository.getUnarchived()
     }
 
     fun onStart(index: Int) {

@@ -27,7 +27,8 @@ fun Navigation(
             val id = it.arguments?.getLong("category_id")
             CategoryDetails(
                 categoryId = id ?: 0L,
-                onBackPress = { navController.navigateUp() }
+                onBackPress = { navController.navigateUp() },
+                onDelete = { navController.navigateUp() }
             )
         }
         composable("categories_screen") {

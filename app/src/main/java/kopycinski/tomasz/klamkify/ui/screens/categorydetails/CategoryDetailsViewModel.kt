@@ -24,4 +24,8 @@ class CategoryDetailsViewModel @Inject constructor(
         category.value = categoryRepository.getById(categoryId)
         totalTime.value = sessionRepository.getTotalTime(categoryId)
     }
+
+    fun deleteCategory() = viewModelScope.launch {
+        categoryRepository.update(category.value.copy(archived = true))
+    }
 }
