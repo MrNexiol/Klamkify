@@ -1,4 +1,4 @@
-package kopycinski.tomasz.klamkify.ui.screens.categories
+package kopycinski.tomasz.klamkify.ui.screens.categorylist
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
@@ -16,10 +18,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import kopycinski.tomasz.klamkify.ui.components.CategoryItem
 
 @Composable
-fun CategoriesScreen(
+fun CategoryList(
     onFabClick: () -> Unit,
     onItemClick: (Long) -> Unit,
-    viewModel: CategoriesViewModel = hiltViewModel()
+    viewModel: CategoryListViewModel = hiltViewModel()
 ) {
     val categories by viewModel.categoryList
     val isTimerRunning by viewModel.isRunning
@@ -30,6 +32,11 @@ fun CategoriesScreen(
     }
 
     Scaffold(
+        topBar = {
+            TopAppBar(title = {
+             Text(text = "Klamkify")
+            })
+        },
         floatingActionButton = {
             FloatingActionButton(onClick = onFabClick) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = "Add")
