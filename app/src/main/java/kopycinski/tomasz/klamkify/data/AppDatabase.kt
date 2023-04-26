@@ -7,7 +7,11 @@ import kopycinski.tomasz.klamkify.data.dao.SessionDao
 import kopycinski.tomasz.klamkify.data.entity.Category
 import kopycinski.tomasz.klamkify.data.entity.Session
 
-@Database(entities = [Category::class, Session::class], version = 1, exportSchema = false)
+@Database(
+    entities = [Category::class, Session::class],
+    version = 1,
+    exportSchema = true
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
     abstract fun sessionDao(): SessionDao
