@@ -11,6 +11,7 @@ import kopycinski.tomasz.klamkify.data.repository.SessionRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,6 +19,7 @@ class CategoryListViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val sessionRepository: SessionRepository
 ) : ViewModel() {
+    private val currentDate = LocalDate.now()
     private var timerJob: Job? = null
     var categoryList = mutableStateOf<List<Category>>(listOf())
         private set
@@ -27,6 +29,10 @@ class CategoryListViewModel @Inject constructor(
         private set
     var currentTime = mutableStateOf(0)
         private set
+
+    init {
+        println(currentDate)
+    }
 
     fun update() = viewModelScope.launch {
         categoryList.value = categoryRepository.getUnarchived()
@@ -46,7 +52,8 @@ class CategoryListViewModel @Inject constructor(
             sessionRepository.insert(
                 Session(
                     timeInSeconds = currentTime.value,
-                    categoryId = categoryId
+                    categoryId = categoryId,
+                    currentDate
                 )
             )
             currentTime.value = 0

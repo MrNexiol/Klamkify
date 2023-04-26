@@ -10,4 +10,6 @@ class SessionRepository @Inject constructor(
     suspend fun insert(session: Session) = sessionDao.insert(session)
 
     suspend fun getTotalTime(categoryId: Long) = sessionDao.getSumByCategoryId(categoryId)
+
+    suspend fun getAllById(categoryId: Long) = sessionDao.getAllByCategoryId(categoryId)
 }
