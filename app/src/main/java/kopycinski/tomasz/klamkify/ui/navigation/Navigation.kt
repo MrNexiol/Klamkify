@@ -14,9 +14,9 @@ import kopycinski.tomasz.klamkify.ui.screens.categorydetails.CategoryDetails
 fun Navigation(
     navController: NavHostController
 ) {
-    NavHost(navController = navController, startDestination = "categories_screen") {
+    NavHost(navController = navController, startDestination = Screen.CategoryList.route) {
         composable(
-            "new_category_screen?category_id={category_id}",
+            route = Screen.CategoryForm.route,
             arguments = listOf(navArgument("category_id") {
                 type = NavType.LongType
                 defaultValue = -1L
@@ -28,7 +28,7 @@ fun Navigation(
             )
         }
         composable(
-            "sessions_screen/{category_id}",
+            route = Screen.CategoryDetails.route,
             arguments = listOf(navArgument("category_id") { type = NavType.LongType })
         ) {navBackStackEntry ->
             val id = navBackStackEntry.arguments?.getLong("category_id")
@@ -36,13 +36,13 @@ fun Navigation(
                 categoryId = id ?: 0L,
                 onBackPress = { navController.navigateUp() },
                 onDelete = { navController.navigateUp() },
-                onEdit = { navController.navigate("new_category_screen?category_id=$it") }
+                onEdit = { navController.navigate(Screen.CategoryForm.createRoute(it)) }
             )
         }
-        composable("categories_screen") {
+        composable(Screen.CategoryList.route) {
             CategoryList(
-                onFabClick = { navController.navigate("new_category_screen") },
-                onItemClick = { navController.navigate("sessions_screen/$it") }
+                onFabClick = { navController.navigate(Screen.CategoryForm.route) },
+                onItemClick = { navController.navigate(Screen.CategoryDetails.createRoute(it)) }
             )
         }
     }
