@@ -14,7 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import kopycinski.tomasz.klamkify.R
 import kopycinski.tomasz.klamkify.ui.components.CategoryItem
 
 @Composable
@@ -34,17 +36,20 @@ fun CategoryList(
     Scaffold(
         topBar = {
             TopAppBar(title = {
-             Text(text = "Klamkify")
+                Text(text = stringResource(id = R.string.app_name))
             })
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onFabClick) {
-                Icon(imageVector = Icons.Filled.Add, contentDescription = "Add")
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = stringResource(id = R.string.add_category)
+                )
             }
         }
     ) { paddingValues ->
         LazyColumn(modifier = Modifier.padding(paddingValues)) {
-            itemsIndexed(categories) {index, category ->
+            itemsIndexed(categories) { index, category ->
                 CategoryItem(
                     category = category,
                     currentTime = viewModel.currentTime.value,
