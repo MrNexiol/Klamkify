@@ -21,9 +21,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import kopycinski.tomasz.klamkify.R
 import kopycinski.tomasz.klamkify.usecase.FormatNumberAsTimeUseCase
 
 @Composable
@@ -49,30 +51,46 @@ fun CategoryDetails(
                 title = { Text(text = category.name) },
                 navigationIcon = {
                     IconButton(onClick = onBackPress) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "")
+                        Icon(
+                            Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.return_to_previous_screen)
+                        )
                     }
                 },
                 actions = {
                     IconButton(onClick = { onEdit(categoryId) }) {
-                        Icon(imageVector = Icons.Filled.Edit, contentDescription = "")
+                        Icon(
+                            imageVector = Icons.Filled.Edit,
+                            contentDescription = stringResource(id = R.string.edit_category)
+                        )
                     }
                     IconButton(onClick = { showDialog = true }) {
-                        Icon(imageVector = Icons.Filled.Delete, contentDescription = "")
+                        Icon(
+                            imageVector = Icons.Filled.Delete,
+                            contentDescription = stringResource(id = R.string.archive_category)
+                        )
                     }
                 }
             )
         }
-    ) {paddingValues ->
+    ) { paddingValues ->
         LazyColumn(
-            Modifier.padding(paddingValues).padding(8.dp)
+            Modifier
+                .padding(paddingValues)
+                .padding(8.dp)
         ) {
             item {
                 Text(
-                    text = "Sum of time spent in this category: ${FormatNumberAsTimeUseCase.execute(totalTime)}"
+                    text = stringResource(
+                        id = R.string.time_sum, FormatNumberAsTimeUseCase.execute(totalTime)
+                    )
                 )
             }
             item {
-                Text(text = "Activity Log", fontWeight = FontWeight.Bold)
+                Text(
+                    text = stringResource(id = R.string.activity_log),
+                    fontWeight = FontWeight.Bold
+                )
             }
             items(sessionList) {
                 Text(text = "${it.date} - ${FormatNumberAsTimeUseCase.execute(it.timeInSeconds)}")
@@ -81,24 +99,23 @@ fun CategoryDetails(
         if (showDialog) {
             AlertDialog(
                 onDismissRequest = { showDialog = false },
-                title = { Text(text = "Are you sure?") },
-                text = { Text(text = "You're going to delete the category and all recorded times. This is irreversible.") },
+                title = { Text(text = stringResource(id = R.string.are_you_sure)) },
+                text = { Text(text = stringResource(id = R.string.archive_warning)) },
                 confirmButton = {
                     Button(onClick = {
                         viewModel.deleteCategory()
                         showDialog = false
                         onDelete()
                     }) {
-                        Text(text = "I'm sure")
+                        Text(text = stringResource(id = R.string.sure))
                     }
                 },
                 dismissButton = {
                     Button(onClick = { showDialog = false }) {
-                        Text(text = "Cancel")
+                        Text(text = stringResource(id = R.string.cancel))
                     }
                 }
             )
         }
     }
-
 }

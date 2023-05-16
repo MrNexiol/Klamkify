@@ -1,15 +1,24 @@
 package kopycinski.tomasz.klamkify.ui.components
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kopycinski.tomasz.klamkify.R
 import kopycinski.tomasz.klamkify.data.entity.Category
 import kopycinski.tomasz.klamkify.usecase.FormatNumberAsTimeUseCase
 
@@ -24,21 +33,38 @@ fun CategoryItem(
     disabled: Boolean = false
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp).clickable { onClick() },
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(60.dp)
+            .padding(horizontal = 8.dp)
+            .clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = category.name,
-        modifier = Modifier.weight(1f))
+        Text(text = category.name, modifier = Modifier.weight(1f))
 
         if (!disabled) {
-            Button(onClick = onStart) {
-                Text(text = "Start")
+            IconButton(
+                onClick = onStart,
+                Modifier.border(BorderStroke(5.dp, Color.Black))
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.PlayArrow,
+                    contentDescription = stringResource(id = R.string.start_timer, category.name)
+                )
             }
         }
 
         if (isActive) {
-            Button(onClick = onStop) {
-                Text(text = "Stop")
+            IconButton(
+                onClick = onStop,
+                Modifier
+                    .padding(end = 8.dp)
+                    .border(BorderStroke(5.dp, Color.Black))
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Stop,
+                    contentDescription = stringResource(id = R.string.stop_timer)
+                )
             }
             Text(text = FormatNumberAsTimeUseCase.execute(currentTime))
         }

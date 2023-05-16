@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Klamkify</string>
+
+    <string name="activity_log">Activity log</string>
+    <string name="add_category">Add category</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="archive_category">Archive category</string>
+    <string name="archive_warning">You are going to archive this category. You won\'t be able to record any more sessions in this category, but it will still show up in statistics.</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit_category">Edit category</string>
+    <string name="name">Name</string>
+    <string name="return_to_previous_screen">Return to previous screen</string>
+    <string name="save">Save</string>
+    <string name="start_timer">Start timer for activity %1$s</string>
+    <string name="stop_timer">Stop timer</string>
+    <string name="sure">I\'m sure</string>
+    <string name="time_sum">Sum of time spent in this category: %1$s</string>
 </resources>
