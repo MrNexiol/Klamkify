@@ -30,9 +30,7 @@ class CategoryListViewModel @Inject constructor(
     var currentTime = mutableStateOf(0)
         private set
 
-    init {
-        println(currentDate)
-    }
+    private var startTime: Long = 0
 
     fun update() = viewModelScope.launch {
         categoryList.value = categoryRepository.getUnarchived()
@@ -61,10 +59,11 @@ class CategoryListViewModel @Inject constructor(
     }
 
     private fun startTimer() {
+        startTime = System.currentTimeMillis()
         timerJob = viewModelScope.launch {
             while (isRunning.value) {
                 delay(1000)
-                currentTime.value += 1
+                currentTime.value = ((System.currentTimeMillis() - startTime) / 1000).toInt()
             }
         }
     }
