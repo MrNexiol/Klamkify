@@ -8,6 +8,7 @@
     <string name="archive_warning">You are going to archive this category. You won\'t be able to record any more sessions in this category, but it will still show up in statistics.</string>
     <string name="cancel">Cancel</string>
     <string name="edit_category">Edit category</string>
+    <string name="end_session">End session</string>
     <string name="name">Name</string>
     <string name="notification_channel_name">Timer</string>
     <string name="notification_channel_description">This notification shows timer</string>
