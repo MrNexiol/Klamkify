@@ -13,11 +13,11 @@ import android.os.IBinder
 import android.os.Looper
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import dagger.hilt.android.AndroidEntryPoint
+import kopycinski.tomasz.domain.usecase.FormatLongAsTimeString
 import kopycinski.tomasz.klamkify.MainActivity
 import kopycinski.tomasz.klamkify.R
 import kopycinski.tomasz.klamkify.data.entity.Session
 import kopycinski.tomasz.klamkify.data.repository.SessionRepository
-import kopycinski.tomasz.klamkify.usecase.FormatNumberAsTimeUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,6 +28,7 @@ import javax.inject.Inject
 class TimerService : Service() {
 
     @Inject lateinit var sessionRepository: SessionRepository
+    val timeFormatter = FormatLongAsTimeString()
 
     private var isRunning: Boolean = false
     private var startTime: Long = 0
@@ -111,7 +112,7 @@ class TimerService : Service() {
         override fun run() {
             elapsedTime = (System.currentTimeMillis() - startTime) / 1000
             notificationBuilder.setContentText(
-                "$categoryName: ${FormatNumberAsTimeUseCase.execute(elapsedTime.toInt())}"
+                "$categoryName: ${timeFormatter(elapsedTime)}"
             )
             notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
             broadcast()
