@@ -1,6 +1,6 @@
 package kopycinski.tomasz.domain.usecase
 
-class FormatLongAsTimeString {
+class FormatLongAsTimeStringUseCase {
     operator fun invoke(seconds: Long): String {
         require(seconds >= 0) { "Seconds have to be non-negative" }
 

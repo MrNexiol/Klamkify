@@ -13,7 +13,7 @@ import android.os.IBinder
 import android.os.Looper
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import dagger.hilt.android.AndroidEntryPoint
-import kopycinski.tomasz.domain.usecase.FormatLongAsTimeString
+import kopycinski.tomasz.domain.usecase.FormatLongAsTimeStringUseCase
 import kopycinski.tomasz.klamkify.MainActivity
 import kopycinski.tomasz.klamkify.R
 import kopycinski.tomasz.klamkify.data.entity.Session
@@ -28,7 +28,7 @@ import javax.inject.Inject
 class TimerService : Service() {
 
     @Inject lateinit var sessionRepository: SessionRepository
-    val timeFormatter = FormatLongAsTimeString()
+    val timeFormatter = FormatLongAsTimeStringUseCase()
 
     private var isRunning: Boolean = false
     private var startTime: Long = 0
