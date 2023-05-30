@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import kopycinski.tomasz.domain.usecase.FormatLongAsTimeStringUseCase
 import kopycinski.tomasz.klamkify.R
 import kopycinski.tomasz.klamkify.service.TimerService
 import kopycinski.tomasz.klamkify.ui.components.CategoryItem
@@ -37,6 +38,7 @@ fun CategoryList(
 ) {
     val categories by viewModel.categoryList
     val context = LocalContext.current
+    val timeFormatter = FormatLongAsTimeStringUseCase()
     var elapsedTime by remember { mutableStateOf(0L) }
     var isRunning by remember { mutableStateOf(false) }
     var activeCategory by remember { mutableStateOf(-1L) }
@@ -79,7 +81,7 @@ fun CategoryList(
             items(categories) { category ->
                 CategoryItem(
                     category = category,
-                    currentTime = elapsedTime.toInt(),
+                    currentTime = elapsedTime,
                     onStart = {
                         isRunning = true
                         activeCategory = category.categoryId
@@ -92,7 +94,8 @@ fun CategoryList(
                     },
                     onClick = { onItemClick(category.categoryId) },
                     isActive = category.categoryId == activeCategory,
-                    disabled = isRunning
+                    disabled = isRunning,
+                    timeFormatter = timeFormatter
                 )
             }
         }

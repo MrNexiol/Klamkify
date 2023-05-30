@@ -25,8 +25,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import kopycinski.tomasz.domain.usecase.FormatLongAsTimeStringUseCase
 import kopycinski.tomasz.klamkify.R
-import kopycinski.tomasz.klamkify.usecase.FormatNumberAsTimeUseCase
 
 @Composable
 fun CategoryDetails(
@@ -37,6 +37,7 @@ fun CategoryDetails(
     viewModel: CategoryDetailsViewModel = hiltViewModel()
 ) {
     var showDialog by remember { mutableStateOf(false) }
+    val timeFormatter = FormatLongAsTimeStringUseCase()
     val category by viewModel.category
     val totalTime by viewModel.totalTime
     val sessionList by viewModel.sessionsList
@@ -82,7 +83,7 @@ fun CategoryDetails(
             item {
                 Text(
                     text = stringResource(
-                        id = R.string.time_sum, FormatNumberAsTimeUseCase.execute(totalTime)
+                        id = R.string.time_sum, timeFormatter(totalTime)
                     )
                 )
             }
@@ -93,7 +94,7 @@ fun CategoryDetails(
                 )
             }
             items(sessionList) {
-                Text(text = "${it.date} - ${FormatNumberAsTimeUseCase.execute(it.timeInSeconds)}")
+                Text(text = "${it.date} - ${timeFormatter(it.timeInSeconds.toLong())}")
             }
         }
         if (showDialog) {

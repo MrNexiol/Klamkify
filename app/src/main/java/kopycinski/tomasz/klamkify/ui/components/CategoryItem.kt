@@ -18,19 +18,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kopycinski.tomasz.domain.usecase.FormatLongAsTimeStringUseCase
 import kopycinski.tomasz.klamkify.R
 import kopycinski.tomasz.klamkify.data.entity.Category
-import kopycinski.tomasz.klamkify.usecase.FormatNumberAsTimeUseCase
 
 @Composable
 fun CategoryItem(
     category: Category,
-    currentTime: Int = 0,
+    currentTime: Long = 0,
     onStart: () -> Unit = {},
     onStop: () -> Unit = {},
     onClick: () -> Unit = {},
     isActive: Boolean = false,
-    disabled: Boolean = false
+    disabled: Boolean = false,
+    timeFormatter: FormatLongAsTimeStringUseCase
 ) {
     Row(
         modifier = Modifier
@@ -66,7 +67,7 @@ fun CategoryItem(
                     contentDescription = stringResource(id = R.string.stop_timer)
                 )
             }
-            Text(text = FormatNumberAsTimeUseCase.execute(currentTime))
+            Text(text = timeFormatter(currentTime))
         }
     }
 }

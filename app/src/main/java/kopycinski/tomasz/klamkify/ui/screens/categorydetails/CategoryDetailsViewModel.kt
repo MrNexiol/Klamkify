@@ -18,14 +18,14 @@ class CategoryDetailsViewModel @Inject constructor(
 ): ViewModel() {
     var category = mutableStateOf(Category(""))
         private set
-    var totalTime = mutableStateOf(0)
+    var totalTime = mutableStateOf(0L)
         private set
     var sessionsList = mutableStateOf<List<Session>>(listOf())
         private set
 
     fun refreshData(categoryId: Long) = viewModelScope.launch {
         category.value = categoryRepository.getById(categoryId)
-        totalTime.value = sessionRepository.getTotalTime(categoryId)
+        totalTime.value = sessionRepository.getTotalTime(categoryId).toLong()
         sessionsList.value = sessionRepository.getAllById(categoryId)
     }
 
