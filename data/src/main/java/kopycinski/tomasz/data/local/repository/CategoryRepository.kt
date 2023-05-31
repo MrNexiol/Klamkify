@@ -1,7 +1,7 @@
-package kopycinski.tomasz.klamkify.data.repository
+package kopycinski.tomasz.data.local.repository
 
-import kopycinski.tomasz.klamkify.data.dao.CategoryDao
-import kopycinski.tomasz.klamkify.data.entity.Category
+import kopycinski.tomasz.data.local.dao.CategoryDao
+import kopycinski.tomasz.data.local.entity.Category
 import javax.inject.Inject
 
 class CategoryRepository @Inject constructor(
@@ -14,4 +14,6 @@ class CategoryRepository @Inject constructor(
     suspend fun getUnarchived() = categoryDao.getAllUnarchived()
 
     suspend fun getById(id: Long) = categoryDao.getById(id)
+
+    suspend fun archive(id: Long) = categoryDao.archive(id)
 }

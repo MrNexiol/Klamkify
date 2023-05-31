@@ -1,4 +1,4 @@
-package kopycinski.tomasz.klamkify.data.entity
+package kopycinski.tomasz.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

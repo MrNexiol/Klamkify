@@ -14,20 +14,18 @@ import android.os.Looper
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import dagger.hilt.android.AndroidEntryPoint
 import kopycinski.tomasz.domain.usecase.FormatLongAsTimeStringUseCase
+import kopycinski.tomasz.domain.usecase.SaveSessionUseCase
 import kopycinski.tomasz.klamkify.MainActivity
 import kopycinski.tomasz.klamkify.R
-import kopycinski.tomasz.klamkify.data.entity.Session
-import kopycinski.tomasz.klamkify.data.repository.SessionRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class TimerService : Service() {
 
-    @Inject lateinit var sessionRepository: SessionRepository
+    @Inject lateinit var saveSessionUseCase: SaveSessionUseCase
     val timeFormatter = FormatLongAsTimeStringUseCase()
 
     private var isRunning: Boolean = false
@@ -72,9 +70,7 @@ class TimerService : Service() {
 
     private fun saveSession() {
         CoroutineScope(Dispatchers.IO).launch {
-            sessionRepository.insert(
-                Session(elapsedTime.toInt(),categoryId, LocalDate.now())
-            )
+            saveSessionUseCase(elapsedTime, categoryId)
         }
     }
 

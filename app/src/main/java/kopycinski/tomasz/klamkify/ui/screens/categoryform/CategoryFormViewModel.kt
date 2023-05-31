@@ -4,14 +4,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kopycinski.tomasz.klamkify.data.entity.Category
-import kopycinski.tomasz.klamkify.data.repository.CategoryRepository
+import kopycinski.tomasz.domain.usecase.CreateCategoryUseCase
+import kopycinski.tomasz.domain.usecase.GetCategoryUseCase
+import kopycinski.tomasz.domain.usecase.UpdateCategoryUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CategoryFormViewModel @Inject constructor(
-    private val repository: CategoryRepository
+    private val getCategoryUseCase: GetCategoryUseCase,
+    private val createCategoryUseCase: CreateCategoryUseCase,
+    private val updateCategoryUseCase: UpdateCategoryUseCase
 ): ViewModel() {
     var categoryId = mutableStateOf(-1L)
         private set
@@ -24,15 +27,15 @@ class CategoryFormViewModel @Inject constructor(
 
     fun save(onSuccess: () -> Unit) = viewModelScope.launch {
         if (categoryId.value == -1L) {
-            repository.insert(Category(categoryName.value))
+            createCategoryUseCase(categoryName.value)
         } else {
-            repository.update(Category(categoryName.value, archived = false, categoryId.value))
+            updateCategoryUseCase(categoryId.value, categoryName.value)
         }
         onSuccess()
     }
 
     fun getCategory(id: Long) = viewModelScope.launch {
-        repository.getById(id).also {
+        getCategoryUseCase(id).also {
             categoryId.value = it.categoryId
             categoryName.value = it.name
         }

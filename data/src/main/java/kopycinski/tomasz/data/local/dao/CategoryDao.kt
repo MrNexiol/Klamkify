@@ -1,10 +1,10 @@
-package kopycinski.tomasz.klamkify.data.dao
+package kopycinski.tomasz.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import kopycinski.tomasz.klamkify.data.entity.Category
+import kopycinski.tomasz.data.local.entity.Category
 
 @Dao
 interface CategoryDao {
@@ -13,6 +13,9 @@ interface CategoryDao {
 
     @Update
     suspend fun update(category: Category)
+
+    @Query("UPDATE category SET archived = 1 WHERE categoryId=:id")
+    suspend fun archive(id: Long)
 
     @Query("SELECT * FROM category WHERE archived = 0")
     suspend fun getAllUnarchived(): List<Category>

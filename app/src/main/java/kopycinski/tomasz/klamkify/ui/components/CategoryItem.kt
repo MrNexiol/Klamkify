@@ -18,9 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kopycinski.tomasz.domain.model.Category
 import kopycinski.tomasz.domain.usecase.FormatLongAsTimeStringUseCase
 import kopycinski.tomasz.klamkify.R
-import kopycinski.tomasz.klamkify.data.entity.Category
 
 @Composable
 fun CategoryItem(

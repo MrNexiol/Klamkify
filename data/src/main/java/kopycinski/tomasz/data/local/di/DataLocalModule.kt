@@ -1,4 +1,4 @@
-package kopycinski.tomasz.klamkify.di
+package kopycinski.tomasz.data.local.di
 
 import android.content.Context
 import androidx.room.Room
@@ -7,14 +7,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kopycinski.tomasz.klamkify.data.AppDatabase
-import kopycinski.tomasz.klamkify.data.dao.CategoryDao
-import kopycinski.tomasz.klamkify.data.dao.SessionDao
+import kopycinski.tomasz.data.local.AppDatabase
+import kopycinski.tomasz.data.local.dao.CategoryDao
+import kopycinski.tomasz.data.local.dao.SessionDao
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object DataLocalModule {
     @Provides
     fun provideSessionDao(appDatabase: AppDatabase): SessionDao =
         appDatabase.sessionDao()

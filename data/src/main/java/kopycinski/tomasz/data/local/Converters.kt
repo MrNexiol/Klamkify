@@ -1,4 +1,4 @@
-package kopycinski.tomasz.klamkify.data
+package kopycinski.tomasz.data.local
 
 import androidx.room.TypeConverter
 import java.time.LocalDate

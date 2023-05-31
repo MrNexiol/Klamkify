@@ -1,7 +1,7 @@
-package kopycinski.tomasz.klamkify.data.repository
+package kopycinski.tomasz.data.local.repository
 
-import kopycinski.tomasz.klamkify.data.dao.SessionDao
-import kopycinski.tomasz.klamkify.data.entity.Session
+import kopycinski.tomasz.data.local.dao.SessionDao
+import kopycinski.tomasz.data.local.entity.Session
 import javax.inject.Inject
 
 class SessionRepository @Inject constructor(

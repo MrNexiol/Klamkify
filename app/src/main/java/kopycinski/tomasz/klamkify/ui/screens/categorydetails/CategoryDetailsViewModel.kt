@@ -4,19 +4,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kopycinski.tomasz.klamkify.data.entity.Category
-import kopycinski.tomasz.klamkify.data.entity.Session
-import kopycinski.tomasz.klamkify.data.repository.CategoryRepository
-import kopycinski.tomasz.klamkify.data.repository.SessionRepository
+import kopycinski.tomasz.domain.model.Session
+import kopycinski.tomasz.domain.usecase.ArchiveCategoryUseCase
+import kopycinski.tomasz.domain.usecase.GetCategoryUseCase
+import kopycinski.tomasz.domain.usecase.GetSessionListUseCase
+import kopycinski.tomasz.domain.usecase.GetTotalTimeSpentOnCategoryUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CategoryDetailsViewModel @Inject constructor(
-    private val categoryRepository: CategoryRepository,
-    private val sessionRepository: SessionRepository
+    private val getCategoryUseCase: GetCategoryUseCase,
+    private val archiveCategoryUseCase: ArchiveCategoryUseCase,
+    private val getTotalTimeSpentOnCategoryUseCase: GetTotalTimeSpentOnCategoryUseCase,
+    private val getSessionListUseCase: GetSessionListUseCase
 ): ViewModel() {
-    var category = mutableStateOf(Category(""))
+    private var id = -1L
+    var categoryName = mutableStateOf("")
         private set
     var totalTime = mutableStateOf(0L)
         private set
@@ -24,12 +28,15 @@ class CategoryDetailsViewModel @Inject constructor(
         private set
 
     fun refreshData(categoryId: Long) = viewModelScope.launch {
-        category.value = categoryRepository.getById(categoryId)
-        totalTime.value = sessionRepository.getTotalTime(categoryId).toLong()
-        sessionsList.value = sessionRepository.getAllById(categoryId)
+        getCategoryUseCase(categoryId).apply {
+            id = this.categoryId
+            categoryName.value = this.name
+        }
+        totalTime.value = getTotalTimeSpentOnCategoryUseCase(categoryId)
+        sessionsList.value = getSessionListUseCase(categoryId)
     }
 
     fun deleteCategory() = viewModelScope.launch {
-        categoryRepository.update(category.value.copy(archived = true))
+        archiveCategoryUseCase(id)
     }
 }

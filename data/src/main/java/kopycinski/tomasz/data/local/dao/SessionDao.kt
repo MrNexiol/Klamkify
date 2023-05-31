@@ -1,9 +1,9 @@
-package kopycinski.tomasz.klamkify.data.dao
+package kopycinski.tomasz.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import kopycinski.tomasz.klamkify.data.entity.Session
+import kopycinski.tomasz.data.local.entity.Session
 
 @Dao
 interface SessionDao {
@@ -11,7 +11,7 @@ interface SessionDao {
     suspend fun insert(session: Session)
 
     @Query("SELECT COALESCE(SUM(timeInSeconds), 0) FROM session WHERE categoryId = :id")
-    suspend fun getSumByCategoryId(id: Long): Int
+    suspend fun getSumByCategoryId(id: Long): Long
 
     @Query("SELECT * FROM session WHERE categoryId = :id ORDER BY sessionId DESC")
     suspend fun getAllByCategoryId(id: Long): List<Session>

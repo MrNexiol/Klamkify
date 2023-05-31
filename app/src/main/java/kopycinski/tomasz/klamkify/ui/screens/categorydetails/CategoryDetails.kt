@@ -38,7 +38,7 @@ fun CategoryDetails(
 ) {
     var showDialog by remember { mutableStateOf(false) }
     val timeFormatter = FormatLongAsTimeStringUseCase()
-    val category by viewModel.category
+    val categoryName by viewModel.categoryName
     val totalTime by viewModel.totalTime
     val sessionList by viewModel.sessionsList
 
@@ -49,7 +49,7 @@ fun CategoryDetails(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = category.name) },
+                title = { Text(text = categoryName) },
                 navigationIcon = {
                     IconButton(onClick = onBackPress) {
                         Icon(
@@ -94,7 +94,7 @@ fun CategoryDetails(
                 )
             }
             items(sessionList) {
-                Text(text = "${it.date} - ${timeFormatter(it.timeInSeconds.toLong())}")
+                Text(text = "${it.date} - ${timeFormatter(it.timeInSeconds)}")
             }
         }
         if (showDialog) {
