@@ -8,7 +8,6 @@ import kopycinski.tomasz.domain.model.Session
 import kopycinski.tomasz.domain.usecase.ArchiveCategoryUseCase
 import kopycinski.tomasz.domain.usecase.GetCategoryUseCase
 import kopycinski.tomasz.domain.usecase.GetSessionListUseCase
-import kopycinski.tomasz.domain.usecase.GetTotalTimeSpentOnCategoryUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,7 +15,6 @@ import javax.inject.Inject
 class CategoryDetailsViewModel @Inject constructor(
     private val getCategoryUseCase: GetCategoryUseCase,
     private val archiveCategoryUseCase: ArchiveCategoryUseCase,
-    private val getTotalTimeSpentOnCategoryUseCase: GetTotalTimeSpentOnCategoryUseCase,
     private val getSessionListUseCase: GetSessionListUseCase
 ): ViewModel() {
     private var id = -1L
@@ -28,12 +26,14 @@ class CategoryDetailsViewModel @Inject constructor(
         private set
 
     fun refreshData(categoryId: Long) = viewModelScope.launch {
-        getCategoryUseCase(categoryId).apply {
-            id = this.categoryId
-            categoryName.value = this.name
+        getCategoryUseCase(categoryId).also {
+            id = it.categoryId
+            categoryName.value = it.name
         }
-        totalTime.value = getTotalTimeSpentOnCategoryUseCase(categoryId)
-        sessionsList.value = getSessionListUseCase(categoryId)
+        getSessionListUseCase(categoryId).also { sessions ->
+            sessionsList.value = sessions
+            totalTime.value = sessions.sumOf { it.timeInSeconds }
+        }
     }
 
     fun deleteCategory() = viewModelScope.launch {

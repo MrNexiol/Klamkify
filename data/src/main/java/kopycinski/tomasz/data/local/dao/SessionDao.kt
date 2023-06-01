@@ -10,9 +10,6 @@ interface SessionDao {
     @Insert
     suspend fun insert(session: Session)
 
-    @Query("SELECT COALESCE(SUM(timeInSeconds), 0) FROM session WHERE categoryId = :id")
-    suspend fun getSumByCategoryId(id: Long): Long
-
     @Query("SELECT * FROM session WHERE categoryId = :id ORDER BY sessionId DESC")
     suspend fun getAllByCategoryId(id: Long): List<Session>
 }
