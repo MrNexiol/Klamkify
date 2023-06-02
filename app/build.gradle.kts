@@ -1,10 +1,10 @@
 plugins {
-    id("com.android.application")
-    id("com.google.dagger.hilt.android")
-    id("com.google.firebase.crashlytics")
-    id("com.google.gms.google-services")
-    id("kotlin-kapt")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.kotlin)
+    alias(libs.plugins.kapt)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.google.crashlytics)
 }
 
 android {

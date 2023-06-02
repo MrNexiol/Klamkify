@@ -1,13 +1,17 @@
 [versions]
+    android = "8.0.2"
     compose = "1.4.2"
     compose-activity = "1.7.1"
     compose-navigation = "2.5.3"
     firebase-crashlytics = "18.3.7"
     firebase-analytics = "21.3.0"
+    google-services = "4.3.15"
+    google-crashlytics = "2.9.5"
     hilt = "2.46.1"
     hilt-navigation = "1.0.0"
     inject = "1"
     junit4 = "4.13.2"
+    kotlin = "1.8.20"
     ktx = "1.8.0"
     room = "2.5.1"
 [libraries]
@@ -38,3 +42,10 @@
     hilt = ["hilt", "hilt-navigation"]
     room = ["room-ktx", "room-runtime"]
 [plugins]
+    android-application = { id = "com.android.application", version.ref = "android" }
+    android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+    android-library = { id = "com.android.library", version.ref = "android" }
+    google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
+    google-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "google-crashlytics" }
+    hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+    kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
