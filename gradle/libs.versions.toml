@@ -1,0 +1,40 @@
+[versions]
+    compose = "1.4.2"
+    compose-activity = "1.7.1"
+    compose-navigation = "2.5.3"
+    firebase-crashlytics = "18.3.7"
+    firebase-analytics = "21.3.0"
+    hilt = "2.44"
+    hilt-navigation = "1.0.0"
+    inject = "1"
+    junit4 = "4.13.2"
+    ktx = "1.8.0"
+    room = "2.5.1"
+[libraries]
+    androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
+    compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "compose-activity" }
+    compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose" }
+    compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "compose-navigation" }
+    compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }
+    compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "compose" }
+    compose-ui-testing = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "compose" }
+    compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "compose" }
+    compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "compose" }
+    firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx", version.ref = "firebase-analytics" }
+    firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx", version.ref = "firebase-crashlytics" }
+    hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+    hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+    hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation" }
+    inject = { group = "javax.inject", name = "javax.inject", version.ref = "inject" }
+    junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+    room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+    room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+    room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+    room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
+[bundles]
+    compose = ["compose-activity", "compose-material", "compose-navigation", "compose-ui", "compose-ui-tooling-preview"]
+    compose-debug = ["compose-ui-tooling", "compose-ui-test"]
+    firebase = ["firebase-analytics", "firebase-crashlytics"]
+    hilt = ["hilt", "hilt-navigation"]
+    room = ["room-ktx", "room-runtime"]
+[plugins]

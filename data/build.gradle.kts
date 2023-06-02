@@ -44,22 +44,16 @@ android {
 dependencies {
 
     // Hilt
-    kapt("com.google.dagger:hilt-compiler:2.44")
-    implementation("com.google.dagger:hilt-android:2.44")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    kapt(libs.hilt.compiler)
+    implementation(libs.bundles.hilt)
 
     // Room
-    val room_version = "2.5.1"
-    kapt("androidx.room:room-compiler:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
-    implementation("androidx.room:room-runtime:$room_version")
-    testImplementation("androidx.room:room-testing:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
+    kapt(libs.room.compiler)
+    implementation(libs.bundles.room)
+    testImplementation(libs.room.testing)
+    annotationProcessor(libs.room.compiler)
 
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    // Core
+    implementation(libs.androidx.ktx)
+    testImplementation(libs.junit4)
 }
