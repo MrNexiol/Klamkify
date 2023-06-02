@@ -4,7 +4,7 @@
     compose-navigation = "2.5.3"
     firebase-crashlytics = "18.3.7"
     firebase-analytics = "21.3.0"
-    hilt = "2.44"
+    hilt = "2.46.1"
     hilt-navigation = "1.0.0"
     inject = "1"
     junit4 = "4.13.2"
