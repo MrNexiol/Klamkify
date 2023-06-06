@@ -3,17 +3,21 @@ package kopycinski.tomasz.data.local.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.time.LocalDate
 
-@Entity(foreignKeys = [
-    ForeignKey(
-        entity = Category::class,
-        parentColumns = arrayOf("categoryId"),
-        childColumns = arrayOf("categoryId"),
-        onDelete = ForeignKey.CASCADE
-    )
-])
+@Entity(
+    foreignKeys = [
+        ForeignKey(
+            entity = Category::class,
+            parentColumns = arrayOf("categoryId"),
+            childColumns = arrayOf("categoryId"),
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index("categoryId")]
+)
 data class Session(
     val timeInSeconds: Long,
     val categoryId: Long,

@@ -18,7 +18,7 @@ interface CategoryDao {
     suspend fun archive(id: Long)
 
     @Query("SELECT * FROM category WHERE archived = 0")
-    suspend fun getAllUnarchived(): List<Category>
+    suspend fun getAll(): List<Category>
 
     @Query("SELECT * FROM category WHERE categoryId = :id")
     suspend fun getById(id: Long): Category

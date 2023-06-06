@@ -11,7 +11,7 @@ class CategoryRepository @Inject constructor(
 
     suspend fun update(category: Category) = categoryDao.update(category)
 
-    suspend fun getUnarchived() = categoryDao.getAllUnarchived()
+    suspend fun getAll() = categoryDao.getAll()
 
     suspend fun getById(id: Long) = categoryDao.getById(id)
 
