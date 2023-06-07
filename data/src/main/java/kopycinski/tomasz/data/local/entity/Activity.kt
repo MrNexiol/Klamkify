@@ -4,8 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Category(
+data class Activity(
     val name: String,
     val archived: Boolean = false,
-    @PrimaryKey(autoGenerate = true) val categoryId: Long = 0
+    @PrimaryKey(autoGenerate = true) val activityId: Long = 0
 )

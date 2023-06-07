@@ -4,19 +4,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kopycinski.tomasz.domain.model.Category
-import kopycinski.tomasz.domain.usecase.GetCategoryListUseCase
+import kopycinski.tomasz.domain.model.Activity
+import kopycinski.tomasz.domain.usecase.GetActivityListUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CategoryListViewModel @Inject constructor(
-    private val getCategoryListUseCase: GetCategoryListUseCase
+class ActivityListViewModel @Inject constructor(
+    private val getActivityListUseCase: GetActivityListUseCase
 ) : ViewModel() {
-    var categoryList = mutableStateOf<List<Category>>(listOf())
+    var activityList = mutableStateOf<List<Activity>>(listOf())
         private set
 
     fun update() = viewModelScope.launch {
-        categoryList.value = getCategoryListUseCase()
+        activityList.value = getActivityListUseCase()
     }
 }

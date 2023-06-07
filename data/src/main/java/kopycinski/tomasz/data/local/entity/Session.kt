@@ -10,17 +10,17 @@ import java.time.LocalDate
 @Entity(
     foreignKeys = [
         ForeignKey(
-            entity = Category::class,
-            parentColumns = arrayOf("categoryId"),
-            childColumns = arrayOf("categoryId"),
+            entity = Activity::class,
+            parentColumns = arrayOf("activityId"),
+            childColumns = arrayOf("activityId"),
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index("categoryId")]
+    indices = [Index("activityId")]
 )
 data class Session(
     val timeInSeconds: Long,
-    val categoryId: Long,
+    val activityId: Long,
     @ColumnInfo(defaultValue = "2023-04-26") val date: LocalDate,
     @PrimaryKey(autoGenerate = true) val sessionId: Long = 0
 )

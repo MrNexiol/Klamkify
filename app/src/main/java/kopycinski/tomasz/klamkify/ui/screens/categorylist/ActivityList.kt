@@ -28,20 +28,20 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kopycinski.tomasz.domain.usecase.FormatLongAsTimeStringUseCase
 import kopycinski.tomasz.klamkify.R
 import kopycinski.tomasz.klamkify.service.TimerService
-import kopycinski.tomasz.klamkify.ui.components.CategoryItem
+import kopycinski.tomasz.klamkify.ui.components.ActivityItem
 
 @Composable
-fun CategoryList(
+fun ActivityList(
     onFabClick: () -> Unit,
     onItemClick: (Long) -> Unit,
-    viewModel: CategoryListViewModel = hiltViewModel()
+    viewModel: ActivityListViewModel = hiltViewModel()
 ) {
-    val categories by viewModel.categoryList
+    val activities by viewModel.activityList
     val context = LocalContext.current
     val timeFormatter = FormatLongAsTimeStringUseCase()
     var elapsedTime by remember { mutableStateOf(0L) }
     var isRunning by remember { mutableStateOf(false) }
-    var activeCategory by remember { mutableStateOf(-1L) }
+    var activeActivity by remember { mutableStateOf(-1L) }
 
     val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
@@ -50,7 +50,7 @@ fun CategoryList(
             val newActiveCategory = intent.getLongExtra(TimerService.BROADCAST_ACTIVE_ID, -1)
             elapsedTime = newElapsedTime
             isRunning = newIsRunning
-            activeCategory = newActiveCategory
+            activeActivity = newActiveCategory
         }
     }
 
@@ -78,22 +78,22 @@ fun CategoryList(
         }
     ) { paddingValues ->
         LazyColumn(modifier = Modifier.padding(paddingValues)) {
-            items(categories) { category ->
-                CategoryItem(
-                    category = category,
+            items(activities) { category ->
+                ActivityItem(
+                    activity = category,
                     currentTime = elapsedTime,
                     onStart = {
                         isRunning = true
-                        activeCategory = category.categoryId
-                        TimerService.start(context, categoryName = category.name, categoryId = category.categoryId)
+                        activeActivity = category.activityId
+                        TimerService.start(context, categoryName = category.name, categoryId = category.activityId)
                     },
                     onStop = {
                         isRunning = false
-                        activeCategory = -1
+                        activeActivity = -1
                         TimerService.stop(context)
                     },
-                    onClick = { onItemClick(category.categoryId) },
-                    isActive = category.categoryId == activeCategory,
+                    onClick = { onItemClick(category.activityId) },
+                    isActive = category.activityId == activeActivity,
                     disabled = isRunning,
                     timeFormatter = timeFormatter
                 )

@@ -1,4 +1,4 @@
-package kopycinski.tomasz.klamkify.ui.screens.categoryform
+package kopycinski.tomasz.klamkify.ui.screens.activityform
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,14 +17,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import kopycinski.tomasz.klamkify.R
 
 @Composable
-fun CategoryForm(
+fun ActivityForm(
     onSuccessSave: () -> Unit,
-    categoryId: Long,
-    viewModel: CategoryFormViewModel = hiltViewModel()
+    activityId: Long,
+    viewModel: ActivityFormViewModel = hiltViewModel()
 ) {
     LaunchedEffect(false) {
-        if (categoryId != -1L) {
-            viewModel.getCategory(categoryId)
+        if (activityId != -1L) {
+            viewModel.getActivity(activityId)
         }
     }
 
@@ -44,7 +44,7 @@ fun CategoryForm(
                 modifier = Modifier
                     .padding(bottom = 8.dp)
                     .fillMaxWidth(),
-                value = viewModel.categoryName.value,
+                value = viewModel.activityName.value,
                 onValueChange = { viewModel.update(it) },
                 label = { Text(text = stringResource(id = R.string.name)) }
             )

@@ -10,6 +10,6 @@ interface SessionDao {
     @Insert
     suspend fun insert(session: Session)
 
-    @Query("SELECT * FROM session WHERE categoryId = :id ORDER BY sessionId DESC")
-    suspend fun getAllByCategoryId(id: Long): List<Session>
+    @Query("SELECT * FROM session WHERE activityId = :id ORDER BY sessionId DESC")
+    suspend fun getAllByActivityId(id: Long): List<Session>
 }

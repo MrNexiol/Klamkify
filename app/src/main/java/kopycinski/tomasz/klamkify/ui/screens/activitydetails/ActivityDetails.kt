@@ -1,4 +1,4 @@
-package kopycinski.tomasz.klamkify.ui.screens.categorydetails
+package kopycinski.tomasz.klamkify.ui.screens.activitydetails
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,27 +29,27 @@ import kopycinski.tomasz.domain.usecase.FormatLongAsTimeStringUseCase
 import kopycinski.tomasz.klamkify.R
 
 @Composable
-fun CategoryDetails(
-    categoryId: Long,
+fun ActivityDetails(
+    activityId: Long,
     onBackPress: () -> Unit,
     onEdit: (Long) -> Unit,
     onDelete: () -> Unit,
-    viewModel: CategoryDetailsViewModel = hiltViewModel()
+    viewModel: ActivityDetailsViewModel = hiltViewModel()
 ) {
     var showDialog by remember { mutableStateOf(false) }
     val timeFormatter = FormatLongAsTimeStringUseCase()
-    val categoryName by viewModel.categoryName
+    val activityName by viewModel.activityName
     val totalTime by viewModel.totalTime
     val sessionList by viewModel.sessionsList
 
     LaunchedEffect(Any()) {
-        viewModel.refreshData(categoryId)
+        viewModel.refreshData(activityId)
     }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = categoryName) },
+                title = { Text(text = activityName) },
                 navigationIcon = {
                     IconButton(onClick = onBackPress) {
                         Icon(
@@ -59,7 +59,7 @@ fun CategoryDetails(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { onEdit(categoryId) }) {
+                    IconButton(onClick = { onEdit(activityId) }) {
                         Icon(
                             imageVector = Icons.Filled.Edit,
                             contentDescription = stringResource(id = R.string.edit_category)
@@ -104,7 +104,7 @@ fun CategoryDetails(
                 text = { Text(text = stringResource(id = R.string.archive_warning)) },
                 confirmButton = {
                     Button(onClick = {
-                        viewModel.deleteCategory()
+                        viewModel.archiveActivity()
                         showDialog = false
                         onDelete()
                     }) {

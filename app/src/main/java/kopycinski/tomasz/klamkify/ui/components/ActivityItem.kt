@@ -18,13 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import kopycinski.tomasz.domain.model.Category
+import kopycinski.tomasz.domain.model.Activity
 import kopycinski.tomasz.domain.usecase.FormatLongAsTimeStringUseCase
 import kopycinski.tomasz.klamkify.R
 
 @Composable
-fun CategoryItem(
-    category: Category,
+fun ActivityItem(
+    activity: Activity,
     currentTime: Long = 0,
     onStart: () -> Unit = {},
     onStop: () -> Unit = {},
@@ -41,7 +41,7 @@ fun CategoryItem(
             .clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = category.name, modifier = Modifier.weight(1f))
+        Text(text = activity.name, modifier = Modifier.weight(1f))
 
         if (!disabled) {
             IconButton(
@@ -50,7 +50,7 @@ fun CategoryItem(
             ) {
                 Icon(
                     imageVector = Icons.Filled.PlayArrow,
-                    contentDescription = stringResource(id = R.string.start_timer, category.name)
+                    contentDescription = stringResource(id = R.string.start_timer, activity.name)
                 )
             }
         }

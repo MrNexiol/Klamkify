@@ -13,7 +13,7 @@ data class Session(
 fun Entity.toModel(): Session =
     Session(
         timeInSeconds = this.timeInSeconds,
-        categoryId = this.categoryId,
+        categoryId = this.activityId,
         date = this.date,
         sessionId = this.sessionId
     )

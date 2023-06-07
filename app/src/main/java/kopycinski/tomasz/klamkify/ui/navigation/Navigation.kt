@@ -6,9 +6,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import kopycinski.tomasz.klamkify.ui.screens.categorylist.CategoryList
-import kopycinski.tomasz.klamkify.ui.screens.categoryform.CategoryForm
-import kopycinski.tomasz.klamkify.ui.screens.categorydetails.CategoryDetails
+import kopycinski.tomasz.klamkify.ui.screens.categorylist.ActivityList
+import kopycinski.tomasz.klamkify.ui.screens.activityform.ActivityForm
+import kopycinski.tomasz.klamkify.ui.screens.activitydetails.ActivityDetails
 
 @Composable
 fun Navigation(
@@ -22,9 +22,9 @@ fun Navigation(
                 defaultValue = -1L
             })
         ) {
-            CategoryForm(
+            ActivityForm(
                 onSuccessSave = { navController.navigateUp() },
-                categoryId = it.arguments?.getLong("category_id") ?: -1L
+                activityId = it.arguments?.getLong("category_id") ?: -1L
             )
         }
         composable(
@@ -32,15 +32,15 @@ fun Navigation(
             arguments = listOf(navArgument("category_id") { type = NavType.LongType })
         ) {navBackStackEntry ->
             val id = navBackStackEntry.arguments?.getLong("category_id")
-            CategoryDetails(
-                categoryId = id ?: 0L,
+            ActivityDetails(
+                activityId = id ?: 0L,
                 onBackPress = { navController.navigateUp() },
                 onDelete = { navController.navigateUp() },
                 onEdit = { navController.navigate(Screen.CategoryForm.createRoute(it)) }
             )
         }
         composable(Screen.CategoryList.route) {
-            CategoryList(
+            ActivityList(
                 onFabClick = { navController.navigate(Screen.CategoryForm.route) },
                 onItemClick = { navController.navigate(Screen.CategoryDetails.createRoute(it)) }
             )
