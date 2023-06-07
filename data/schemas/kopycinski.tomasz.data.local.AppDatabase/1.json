@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "35f5f1fcc513d79496ccccc1db9b05b5",
+    "identityHash": "7fa280a0d385969b2d54bcfe4841eecc",
     "entities": [
       {
-        "tableName": "Category",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `archived` INTEGER NOT NULL, `categoryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "tableName": "Activity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `archived` INTEGER NOT NULL, `activityId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
           {
             "fieldPath": "name",
@@ -21,8 +21,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "categoryId",
-            "columnName": "categoryId",
+            "fieldPath": "activityId",
+            "columnName": "activityId",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -30,7 +30,7 @@
         "primaryKey": {
           "autoGenerate": true,
           "columnNames": [
-            "categoryId"
+            "activityId"
           ]
         },
         "indices": [],
@@ -38,7 +38,7 @@
       },
       {
         "tableName": "Session",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`timeInSeconds` INTEGER NOT NULL, `categoryId` INTEGER NOT NULL, `date` TEXT NOT NULL DEFAULT '2023-04-26', `sessionId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`categoryId`) REFERENCES `Category`(`categoryId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`timeInSeconds` INTEGER NOT NULL, `activityId` INTEGER NOT NULL, `date` TEXT NOT NULL DEFAULT '2023-04-26', `sessionId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`activityId`) REFERENCES `Activity`(`activityId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "timeInSeconds",
@@ -47,8 +47,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "categoryId",
-            "columnName": "categoryId",
+            "fieldPath": "activityId",
+            "columnName": "activityId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -74,25 +74,25 @@
         },
         "indices": [
           {
-            "name": "index_Session_categoryId",
+            "name": "index_Session_activityId",
             "unique": false,
             "columnNames": [
-              "categoryId"
+              "activityId"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_Session_categoryId` ON `${TABLE_NAME}` (`categoryId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Session_activityId` ON `${TABLE_NAME}` (`activityId`)"
           }
         ],
         "foreignKeys": [
           {
-            "table": "Category",
+            "table": "Activity",
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
-              "categoryId"
+              "activityId"
             ],
             "referencedColumns": [
-              "categoryId"
+              "activityId"
             ]
           }
         ]
@@ -101,7 +101,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '35f5f1fcc513d79496ccccc1db9b05b5')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7fa280a0d385969b2d54bcfe4841eecc')"
     ]
   }
 }
