@@ -12,6 +12,7 @@ import kopycinski.tomasz.klamkify.ui.navigation.DestinationArgs.ACTIVITY_ID_ARG
 import kopycinski.tomasz.klamkify.ui.screens.activities.ActivitiesScreen
 import kopycinski.tomasz.klamkify.ui.screens.activityform.ActivityForm
 import kopycinski.tomasz.klamkify.ui.screens.activitydetails.ActivityDetails
+import kopycinski.tomasz.klamkify.ui.screens.categoryform.CategoryFormScreen
 
 @Composable
 fun NavGraph(
@@ -26,7 +27,7 @@ fun NavGraph(
         startDestination = startDestination
     ) {
         composable(
-            route = Destinations.ADD_EDIT_ACTIVITY_ROUTE,
+            route = Destinations.ACTIVITY_FORM_ROUTE,
             arguments = listOf(
                 navArgument(ACTIVITY_ID_ARG) {
                     type = NavType.LongType
@@ -52,16 +53,21 @@ fun NavGraph(
                 activityId = backStack.arguments?.getLong(ACTIVITY_ID_ARG)!!,
                 onBackPress = { navController.navigateUp() },
                 onDelete = { navController.navigateUp() },
-                onEdit = { navActions.navigateToAddEditActivity(it) }
+                onEdit = { navActions.navigateToActivityForm(it) }
             )
         }
         composable(
             route = Destinations.ACTIVITIES_ROUTE
         ) {
             ActivitiesScreen(
-//                onFabClick =? { navActions.navigateToAddEditActivity(null) },
+                onFabClick = { navActions.navigateToCategoryForm() }
 //                onItemClick = { navActions.navigateToActivityDetails(it) }
             )
+        }
+        composable(
+            route = Destinations.CATEGORY_FORM_ROUTE
+        ) {
+            CategoryFormScreen()
         }
     }
 }

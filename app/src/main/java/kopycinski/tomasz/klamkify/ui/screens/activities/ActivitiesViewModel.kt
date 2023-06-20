@@ -6,11 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kopycinski.tomasz.domain.model.Category
-import kopycinski.tomasz.domain.usecase.CreateCategoryUseCase
 import kopycinski.tomasz.domain.usecase.GetCategoriesUseCase
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class ActivityUIState(
@@ -19,8 +17,7 @@ data class ActivityUIState(
 
 @HiltViewModel
 class ActivitiesViewModel @Inject constructor(
-    private val getCategoriesUseCase: GetCategoriesUseCase,
-    private val createCategoryUseCase: CreateCategoryUseCase
+    private val getCategoriesUseCase: GetCategoriesUseCase
 ) : ViewModel() {
     private val _uiState = mutableStateOf(ActivityUIState())
     val uiState: State<ActivityUIState> = _uiState
@@ -35,9 +32,5 @@ class ActivitiesViewModel @Inject constructor(
                 _uiState.value = ActivityUIState(it)
             }
             .launchIn(viewModelScope)
-    }
-
-    fun createTestCategory() = viewModelScope.launch {
-        createCategoryUseCase()
     }
 }

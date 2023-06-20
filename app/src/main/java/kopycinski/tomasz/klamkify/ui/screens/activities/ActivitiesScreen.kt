@@ -18,6 +18,7 @@ import kopycinski.tomasz.domain.model.Category
 
 @Composable
 fun ActivitiesScreen(
+    onFabClick: () -> Unit,
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     viewModel: ActivitiesViewModel = hiltViewModel()
 ) {
@@ -26,7 +27,7 @@ fun ActivitiesScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         floatingActionButton = {
-            FloatingActionButton(onClick = { viewModel.createTestCategory() }) {
+            FloatingActionButton(onClick = onFabClick) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = "")
             }
         }
