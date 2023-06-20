@@ -35,6 +35,8 @@ dependencies {
 
     implementation(project(":data"))
 
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+
     implementation(libs.inject)
     implementation(libs.androidx.ktx)
     testImplementation(libs.junit4)

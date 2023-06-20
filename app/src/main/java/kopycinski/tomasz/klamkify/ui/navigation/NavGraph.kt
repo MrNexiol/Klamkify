@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import kopycinski.tomasz.klamkify.ui.navigation.DestinationArgs.ACTIVITY_ID_ARG
-import kopycinski.tomasz.klamkify.ui.screens.categorylist.ActivityList
+import kopycinski.tomasz.klamkify.ui.screens.activities.ActivitiesScreen
 import kopycinski.tomasz.klamkify.ui.screens.activityform.ActivityForm
 import kopycinski.tomasz.klamkify.ui.screens.activitydetails.ActivityDetails
 
@@ -58,9 +58,9 @@ fun NavGraph(
         composable(
             route = Destinations.ACTIVITIES_ROUTE
         ) {
-            ActivityList(
-                onFabClick = { navActions.navigateToAddEditActivity(null) },
-                onItemClick = { navActions.navigateToActivityDetails(it) }
+            ActivitiesScreen(
+//                onFabClick =? { navActions.navigateToAddEditActivity(null) },
+//                onItemClick = { navActions.navigateToActivityDetails(it) }
             )
         }
     }

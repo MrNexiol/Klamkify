@@ -11,7 +11,8 @@ class UpdateActivityUseCase @Inject constructor(
         Activity(
             name = name,
             archived = false,
-            activityId = id
+            activityId = id,
+            categoryId = 0L
         )
     )
 }

@@ -9,6 +9,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kopycinski.tomasz.data.local.AppDatabase
 import kopycinski.tomasz.data.local.dao.ActivityDao
+import kopycinski.tomasz.data.local.dao.CategoryDao
 import kopycinski.tomasz.data.local.dao.SessionDao
 import javax.inject.Singleton
 
@@ -16,12 +17,16 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DataLocalModule {
     @Provides
-    fun provideSessionDao(appDatabase: AppDatabase): SessionDao =
-        appDatabase.sessionDao()
-
-    @Provides
     fun provideActivityDao(appDatabase: AppDatabase): ActivityDao =
         appDatabase.activityDao()
+
+    @Provides
+    fun provideCategoryDao(appDatabase: AppDatabase): CategoryDao =
+        appDatabase.categoryDao()
+
+    @Provides
+    fun provideSessionDao(appDatabase: AppDatabase): SessionDao =
+        appDatabase.sessionDao()
 
     @Provides
     @Singleton
