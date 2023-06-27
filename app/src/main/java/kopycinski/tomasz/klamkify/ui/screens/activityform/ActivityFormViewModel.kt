@@ -1,43 +1,42 @@
 package kopycinski.tomasz.klamkify.ui.screens.activityform
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kopycinski.tomasz.domain.model.Category
 import kopycinski.tomasz.domain.usecase.CreateActivityUseCase
-import kopycinski.tomasz.domain.usecase.GetActivityUseCase
-import kopycinski.tomasz.domain.usecase.UpdateActivityUseCase
+import kopycinski.tomasz.domain.usecase.GetCategoriesUseCase
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+data class ActivityFormUIState(
+    val categoryList: List<Category> = listOf(),
+    val chosenCategoryId: Long = -1
+)
+
 @HiltViewModel
 class ActivityFormViewModel @Inject constructor(
-    private val getActivityUseCase: GetActivityUseCase,
     private val createActivityUseCase: CreateActivityUseCase,
-    private val updateActivityUseCase: UpdateActivityUseCase
+    getCategoriesUseCase: GetCategoriesUseCase
 ): ViewModel() {
-    var activityId = mutableStateOf(-1L)
-        private set
-    var activityName = mutableStateOf("")
-        private set
+    private var _uiState = mutableStateOf(ActivityFormUIState())
+    val uiState: State<ActivityFormUIState> = _uiState
 
-    fun update(name: String) {
-        activityName.value = name
+    init {
+        getCategoriesUseCase().onEach {
+            _uiState.value = _uiState.value.copy(categoryList = it)
+        }.launchIn(viewModelScope)
     }
 
-    fun save(onSuccess: () -> Unit) = viewModelScope.launch {
-        if (activityId.value == -1L) {
-            createActivityUseCase(activityName.value)
-        } else {
-            updateActivityUseCase(activityId.value, activityName.value)
-        }
-        onSuccess()
+    fun setCurrentCategoryId(id: Long) {
+        _uiState.value = _uiState.value.copy(chosenCategoryId = id)
     }
 
-    fun getActivity(id: Long) = viewModelScope.launch {
-        getActivityUseCase(id).also {
-            activityId.value = it.activityId
-            activityName.value = it.name
-        }
+    fun save(name: String) = viewModelScope.launch {
+        createActivityUseCase(name, _uiState.value.chosenCategoryId)
     }
 }

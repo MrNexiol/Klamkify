@@ -37,6 +37,7 @@ fun NavGraph(
         ) {
             ActivityForm(
                 onSuccessSave = { navController.popBackStack() },
+                onAddCategory = { navActions.navigateToCategoryForm() },
                 activityId = it.arguments?.getLong(ACTIVITY_ID_ARG)!!
             )
         }
@@ -60,8 +61,7 @@ fun NavGraph(
             route = Destinations.ACTIVITIES_ROUTE
         ) {
             ActivitiesScreen(
-                onFabClick = { navActions.navigateToCategoryForm() }
-//                onItemClick = { navActions.navigateToActivityDetails(it) }
+                onFabClick = { navActions.navigateToActivityForm() }
             )
         }
         composable(

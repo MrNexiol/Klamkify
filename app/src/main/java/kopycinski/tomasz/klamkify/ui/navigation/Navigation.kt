@@ -26,7 +26,7 @@ object Destinations {
 }
 
 class NavigationActions(private val navController: NavHostController) {
-    fun navigateToActivityForm(activityId: Long?) {
+    fun navigateToActivityForm(activityId: Long? = null) {
         navController.navigate(
             ACTIVITY_FORM_SCREEN.let {
                 if (activityId != null) "$it?$ACTIVITY_ID_ARG=$activityId" else it
