@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import kopycinski.tomasz.data.local.entity.Activity
 import kopycinski.tomasz.data.local.entity.Category
 import kotlinx.coroutines.flow.Flow
 
@@ -20,6 +21,12 @@ interface CategoryDao {
 
     @Query("SELECT * FROM category WHERE archived = 0")
     fun getAll(): Flow<List<Category>>
+
+    @Query(
+        "SELECT * FROM category " +
+        "LEFT JOIN activity ON category.categoryId = activity.parentCategoryId"
+    )
+    fun getAllWithActivities(): Flow<Map<Category, List<Activity>>>
 
     @Query("SELECT * FROM category WHERE categoryId=:id")
     suspend fun getById(id: Long): Category

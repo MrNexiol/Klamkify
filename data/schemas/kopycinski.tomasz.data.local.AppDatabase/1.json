@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "20bee7ad66537fb164032a25a09fad44",
+    "identityHash": "2101b5428d68072b32258f1b281d4f39",
     "entities": [
       {
         "tableName": "Activity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `archived` INTEGER NOT NULL, `categoryId` INTEGER NOT NULL, `activityId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`categoryId`) REFERENCES `Category`(`categoryId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `parentCategoryId` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `activityId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`parentCategoryId`) REFERENCES `Category`(`categoryId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "name",
@@ -15,14 +15,14 @@
             "notNull": true
           },
           {
-            "fieldPath": "archived",
-            "columnName": "archived",
+            "fieldPath": "parentCategoryId",
+            "columnName": "parentCategoryId",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "categoryId",
-            "columnName": "categoryId",
+            "fieldPath": "archived",
+            "columnName": "archived",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -41,13 +41,13 @@
         },
         "indices": [
           {
-            "name": "index_Activity_categoryId",
+            "name": "index_Activity_parentCategoryId",
             "unique": false,
             "columnNames": [
-              "categoryId"
+              "parentCategoryId"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_Activity_categoryId` ON `${TABLE_NAME}` (`categoryId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Activity_parentCategoryId` ON `${TABLE_NAME}` (`parentCategoryId`)"
           }
         ],
         "foreignKeys": [
@@ -56,7 +56,7 @@
             "onDelete": "NO ACTION",
             "onUpdate": "NO ACTION",
             "columns": [
-              "categoryId"
+              "parentCategoryId"
             ],
             "referencedColumns": [
               "categoryId"
@@ -160,7 +160,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '20bee7ad66537fb164032a25a09fad44')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2101b5428d68072b32258f1b281d4f39')"
     ]
   }
 }

@@ -14,6 +14,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import kopycinski.tomasz.domain.model.Activity
 import kopycinski.tomasz.domain.model.Category
 
 @Composable
@@ -34,7 +35,7 @@ fun ActivitiesScreen(
     ) { paddingValues ->
         ActivitiesContent(
             modifier = Modifier.padding(paddingValues),
-            categories = uiState.categories
+            categoryMap = uiState.categories
         )
     }
 }
@@ -42,11 +43,16 @@ fun ActivitiesScreen(
 @Composable
 fun ActivitiesContent(
     modifier: Modifier = Modifier,
-    categories: List<Category>
+    categoryMap: Map<Category, List<Activity>>
 ) {
     LazyColumn(modifier = modifier) {
-        items(categories) {
-            Text(text = it.name)
+        for (entry in categoryMap) {
+            item {
+                Text(text = entry.key.name)
+            }
+            items(entry.value) {
+                Text(text = it.name)
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ class UpdateActivityUseCase @Inject constructor(
             name = name,
             archived = false,
             activityId = id,
-            categoryId = 0L
+            parentCategoryId = 0L
         )
     )
 }

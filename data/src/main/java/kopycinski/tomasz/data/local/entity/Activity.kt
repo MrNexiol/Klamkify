@@ -10,14 +10,14 @@ import androidx.room.PrimaryKey
         ForeignKey(
             entity = Category::class,
             parentColumns = arrayOf("categoryId"),
-            childColumns = arrayOf("categoryId")
+            childColumns = arrayOf("parentCategoryId")
         )
     ],
-    indices = [Index("categoryId")]
+    indices = [Index("parentCategoryId")]
 )
 data class Activity(
     val name: String,
+    val parentCategoryId: Long,
     val archived: Boolean = false,
-    val categoryId: Long,
     @PrimaryKey(autoGenerate = true) val activityId: Long = 0
 )

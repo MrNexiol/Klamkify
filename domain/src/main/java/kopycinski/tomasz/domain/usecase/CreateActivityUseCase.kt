@@ -8,6 +8,6 @@ class CreateActivityUseCase @Inject constructor(
     private val repository: ActivityRepository
 ) {
     suspend operator fun invoke(name: String) = repository.insert(
-        Activity(name, false, 0L)
+        Activity(name, 0L, false)
     )
 }
