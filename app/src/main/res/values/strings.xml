@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Klamkify</string>
 
+    <string name="activities">Activities</string>
     <string name="activity_log">Activity log</string>
     <string name="add_activity">Add activity</string>
     <string name="add_category">Add category</string>

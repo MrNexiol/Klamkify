@@ -61,7 +61,9 @@ fun NavGraph(
             route = Destinations.ACTIVITIES_ROUTE
         ) {
             ActivitiesScreen(
-                onFabClick = { navActions.navigateToActivityForm() }
+                onFabClick = { navActions.navigateToActivityForm() },
+                onActivityClick = { navActions.navigateToActivityDetails(it) },
+                onActivityLongClick = { navActions.navigateToActivityForm(it) }
             )
         }
         composable(

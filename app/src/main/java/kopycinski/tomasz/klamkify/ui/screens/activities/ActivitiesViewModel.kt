@@ -13,7 +13,8 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 data class ActivityUIState(
-    val categories: Map<Category, List<Activity>> = mapOf()
+    val categories: Map<Category, List<Activity>> = mapOf(),
+    val extendedCategory: Long = -1
 )
 
 @HiltViewModel
@@ -33,5 +34,13 @@ class ActivitiesViewModel @Inject constructor(
                 _uiState.value = ActivityUIState(it)
             }
             .launchIn(viewModelScope)
+    }
+
+    fun toggleCategory(categoryId: Long) {
+        _uiState.value = if (_uiState.value.extendedCategory == categoryId) {
+            _uiState.value.copy(extendedCategory = -1)
+        } else {
+            _uiState.value.copy(extendedCategory = categoryId)
+        }
     }
 }
