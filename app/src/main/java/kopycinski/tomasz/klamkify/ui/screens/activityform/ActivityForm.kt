@@ -34,15 +34,11 @@ import kopycinski.tomasz.klamkify.R
 fun ActivityForm(
     onSuccessSave: () -> Unit,
     onAddCategory: () -> Unit,
-    activityId: Long,
     viewModel: ActivityFormViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.uiState.value
 
-    var activityName by remember { mutableStateOf("") }
-
     var isDropdownExpanded by remember { mutableStateOf(false) }
-    var dropdownValue by remember { mutableStateOf("") }
 
     Scaffold(topBar = {
         TopAppBar(title = { Text(text = stringResource(id = R.string.add_activity)) })
@@ -56,8 +52,8 @@ fun ActivityForm(
                 modifier = Modifier
                     .padding(bottom = 8.dp)
                     .fillMaxWidth(),
-                value = activityName,
-                onValueChange = { activityName = it },
+                value = uiState.activityName,
+                onValueChange = { viewModel.setActivityName(it) },
                 label = { Text(text = stringResource(id = R.string.name)) })
             Row(
                 verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()
@@ -69,7 +65,7 @@ fun ActivityForm(
                 ) {
                     OutlinedTextField(
                         readOnly = true,
-                        value = dropdownValue,
+                        value = uiState.chosenCategoryName,
                         onValueChange = {},
                         trailingIcon = {
                             ExposedDropdownMenuDefaults.TrailingIcon(expanded = isDropdownExpanded)
@@ -77,12 +73,16 @@ fun ActivityForm(
                         label = { Text(text = stringResource(id = R.string.category)) },
                         modifier = Modifier.menuAnchor().fillMaxWidth()
                     )
-                    ExposedDropdownMenu(expanded = isDropdownExpanded,
-                        onDismissRequest = { isDropdownExpanded = false }) {
+                    ExposedDropdownMenu(
+                        expanded = isDropdownExpanded,
+                        onDismissRequest = { isDropdownExpanded = false }
+                    ) {
                         uiState.categoryList.forEach {
+                            if (it.categoryId == uiState.chosenCategoryId) {
+                                viewModel.setCurrentCategoryName(it.name)
+                            }
                             DropdownMenuItem(
                                 onClick = {
-                                    dropdownValue = it.name
                                     viewModel.setCurrentCategoryId(it.categoryId)
                                     isDropdownExpanded = false
                                 },
@@ -99,7 +99,7 @@ fun ActivityForm(
                 }
             }
             Button(onClick = {
-                viewModel.save(activityName)
+                viewModel.saveActivity()
                 onSuccessSave()
             }) {
                 Text(text = stringResource(id = R.string.save))

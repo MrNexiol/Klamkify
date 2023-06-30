@@ -37,8 +37,7 @@ fun NavGraph(
         ) {
             ActivityForm(
                 onSuccessSave = { navController.popBackStack() },
-                onAddCategory = { navActions.navigateToCategoryForm() },
-                activityId = it.arguments?.getLong(ACTIVITY_ID_ARG)!!
+                onAddCategory = { navActions.navigateToCategoryForm() }
             )
         }
         composable(
