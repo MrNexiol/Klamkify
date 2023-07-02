@@ -77,7 +77,9 @@ fun NavGraph(
                 }
             )
         ) {
-            ActivityTimerScreen()
+            ActivityTimerScreen(
+                onDetailsClick = { navActions.navigateToActivityDetails(it) }
+            )
         }
         composable(
             route = Destinations.CATEGORY_FORM_ROUTE,
