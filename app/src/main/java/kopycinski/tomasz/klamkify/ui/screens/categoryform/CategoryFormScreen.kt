@@ -7,10 +7,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -21,16 +17,16 @@ import kopycinski.tomasz.klamkify.R
 fun CategoryFormScreen(
     viewModel: CategoryFormViewModel = hiltViewModel()
 ) {
-    var categoryName by remember { mutableStateOf("") }
+    val uiState = viewModel.uiState.value
 
-    Scaffold {
+    Scaffold { paddingValues ->
         Column(
             modifier = Modifier
-                .padding(it)
+                .padding(paddingValues)
                 .padding(8.dp)
         ) {
-            OutlinedTextField(value = categoryName, onValueChange = { categoryName = it })
-            Button(onClick = { viewModel.createCategory(categoryName) }) {
+            OutlinedTextField(value = uiState.categoryName, onValueChange = { viewModel.setCategoryName(it) })
+            Button(onClick = { viewModel.saveCategory() }) {
                 Text(text = stringResource(id = R.string.save))
             }
         }

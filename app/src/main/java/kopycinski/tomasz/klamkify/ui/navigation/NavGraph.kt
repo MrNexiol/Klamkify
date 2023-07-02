@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import kopycinski.tomasz.klamkify.ui.navigation.DestinationArgs.ACTIVITY_ID_ARG
+import kopycinski.tomasz.klamkify.ui.navigation.DestinationArgs.CATEGORY_ID_ARG
 import kopycinski.tomasz.klamkify.ui.screens.activities.ActivitiesScreen
 import kopycinski.tomasz.klamkify.ui.screens.activityform.ActivityForm
 import kopycinski.tomasz.klamkify.ui.screens.activitydetails.ActivityDetails
@@ -62,11 +63,18 @@ fun NavGraph(
             ActivitiesScreen(
                 onFabClick = { navActions.navigateToActivityForm() },
                 onActivityClick = { navActions.navigateToActivityDetails(it) },
-                onActivityLongClick = { navActions.navigateToActivityForm(it) }
+                onActivityLongClick = { navActions.navigateToActivityForm(it) },
+                onCategoryLongClick = { navActions.navigateToCategoryForm(it) }
             )
         }
         composable(
-            route = Destinations.CATEGORY_FORM_ROUTE
+            route = Destinations.CATEGORY_FORM_ROUTE,
+            arguments = listOf(
+                navArgument(CATEGORY_ID_ARG) {
+                    type = NavType.LongType
+                    defaultValue = -1L
+                }
+            )
         ) {
             CategoryFormScreen()
         }

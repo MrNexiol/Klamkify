@@ -27,6 +27,7 @@ fun ActivitiesScreen(
     onFabClick: () -> Unit,
     onActivityClick: (Long) -> Unit,
     onActivityLongClick: (Long) -> Unit,
+    onCategoryLongClick: (Long) -> Unit,
     viewModel: ActivitiesViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.uiState.value
@@ -47,9 +48,10 @@ fun ActivitiesScreen(
         ActivitiesContent(
             modifier = Modifier.padding(paddingValues),
             categoryMap = uiState.categories,
-            onCategoryClick = { viewModel.toggleCategory(it) },
             onActivityClick = onActivityClick,
             onActivityLongClick = onActivityLongClick,
+            onCategoryClick = { viewModel.toggleCategory(it) },
+            onCategoryLongClick = onCategoryLongClick,
             extendedCategory = uiState.extendedCategory
         )
     }
@@ -59,15 +61,20 @@ fun ActivitiesScreen(
 fun ActivitiesContent(
     modifier: Modifier = Modifier,
     categoryMap: Map<Category, List<Activity>>,
-    onCategoryClick: (Long) -> Unit,
     onActivityClick: (Long) -> Unit,
     onActivityLongClick: (Long) -> Unit,
+    onCategoryClick: (Long) -> Unit,
+    onCategoryLongClick: (Long) -> Unit,
     extendedCategory: Long
 ) {
     LazyColumn(modifier = modifier) {
         for (entry in categoryMap) {
             item {
-                CategoryItem(categoryName = entry.key.name, onClick = { onCategoryClick(entry.key.categoryId) })
+                CategoryItem(
+                    categoryName = entry.key.name,
+                    onClick = { onCategoryClick(entry.key.categoryId) },
+                    onLongClick = { onCategoryLongClick(entry.key.categoryId) }
+                )
             }
             if (entry.key.categoryId == extendedCategory) {
                 items(entry.value) {
