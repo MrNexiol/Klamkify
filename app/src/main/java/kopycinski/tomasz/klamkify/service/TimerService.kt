@@ -31,8 +31,8 @@ class TimerService : Service() {
     private var isRunning: Boolean = false
     private var startTime: Long = 0
     private var elapsedTime: Long = 0
-    private var categoryName: String = ""
-    private var categoryId: Long = -1
+    private var activityName: String = ""
+    private var activityId: Long = -1
     private val handler = Handler(Looper.getMainLooper())
     private val notificationManager by lazy {
         getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -52,8 +52,8 @@ class TimerService : Service() {
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         when(intent.action) {
             ACTION_START_SERVICE -> {
-                extractCategoryDataFromIntent(intent)
-                createNotification(categoryName)
+                extractActivityDataFromIntent(intent)
+                createNotification(activityName)
                 startTimer()
             }
             ACTION_STOP_SERVICE -> stopSelf()
@@ -70,7 +70,7 @@ class TimerService : Service() {
 
     private fun saveSession() {
         CoroutineScope(Dispatchers.IO).launch {
-            saveSessionUseCase(elapsedTime, categoryId)
+            saveSessionUseCase(elapsedTime, activityId)
         }
     }
 
@@ -91,9 +91,9 @@ class TimerService : Service() {
         startForeground(NOTIFICATION_ID, notificationBuilder.build())
     }
 
-    private fun extractCategoryDataFromIntent(intent: Intent) {
-        categoryName = intent.getStringExtra(START_INTENT_NAME) ?: ""
-        categoryId = intent.getLongExtra(START_INTENT_ID, -1)
+    private fun extractActivityDataFromIntent(intent: Intent) {
+        activityName = intent.getStringExtra(START_INTENT_NAME) ?: ""
+        activityId = intent.getLongExtra(START_INTENT_ID, -1)
     }
 
     private fun startTimer() {
@@ -108,7 +108,7 @@ class TimerService : Service() {
         override fun run() {
             elapsedTime = (System.currentTimeMillis() - startTime) / 1000
             notificationBuilder.setContentText(
-                "$categoryName: ${timeFormatter(elapsedTime)}"
+                "$activityName: ${timeFormatter(elapsedTime)}"
             )
             notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
             broadcast()
@@ -122,7 +122,6 @@ class TimerService : Service() {
         val intent = Intent(BROADCAST_ACTION)
         intent.putExtra(BROADCAST_TIME_EXTRA, elapsedTime)
         intent.putExtra(BROADCAST_RUNNING_EXTRA, isRunning)
-        intent.putExtra(BROADCAST_ACTIVE_ID, categoryId)
         broadcastManager.sendBroadcast(intent)
     }
 
@@ -150,8 +149,8 @@ class TimerService : Service() {
     }
 
     companion object {
-        private const val START_INTENT_NAME = "category_name"
-        private const val START_INTENT_ID = "category_index"
+        private const val START_INTENT_NAME = "activity_name"
+        private const val START_INTENT_ID = "activity_index"
         private const val HANDLER_DELAY = 1000L
         private const val NOTIFICATION_CHANNEL_ID = "klamkify_timer"
         private const val NOTIFICATION_ID = 2137
@@ -160,12 +159,11 @@ class TimerService : Service() {
         const val BROADCAST_ACTION = "timer_update"
         const val BROADCAST_TIME_EXTRA = "elapsed_time"
         const val BROADCAST_RUNNING_EXTRA = "is_running"
-        const val BROADCAST_ACTIVE_ID = "active_id"
 
-        fun start(context: Context, categoryName: String, categoryId: Long) {
+        fun start(context: Context, categoryName: String, activityId: Long) {
             val intent = Intent(context, TimerService::class.java)
             intent.putExtra(START_INTENT_NAME, categoryName)
-            intent.putExtra(START_INTENT_ID, categoryId)
+            intent.putExtra(START_INTENT_ID, activityId)
             intent.action = ACTION_START_SERVICE
             context.startService(intent)
         }

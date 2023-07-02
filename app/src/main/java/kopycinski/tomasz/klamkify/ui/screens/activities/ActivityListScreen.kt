@@ -19,7 +19,7 @@ import kopycinski.tomasz.domain.model.Activity
 import kopycinski.tomasz.domain.model.Category
 import kopycinski.tomasz.klamkify.R
 import kopycinski.tomasz.klamkify.ui.components.CategoryItem
-import kopycinski.tomasz.klamkify.ui.components.NewActivityItem
+import kopycinski.tomasz.klamkify.ui.components.ActivityItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,7 +78,7 @@ fun ActivitiesContent(
             }
             if (entry.key.categoryId == extendedCategory) {
                 items(entry.value) {
-                    NewActivityItem(
+                    ActivityItem(
                         activityName = it.name,
                         onClick = { onActivityClick(it.activityId) },
                         onLongClick = { onActivityLongClick(it.activityId) }

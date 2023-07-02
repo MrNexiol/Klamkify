@@ -1,5 +1,9 @@
 package kopycinski.tomasz.klamkify.ui.screens.activitytimer
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,8 +19,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import kopycinski.tomasz.domain.usecase.FormatLongAsTimeStringUseCase
+import kopycinski.tomasz.klamkify.service.TimerService
 
 @Composable
 fun ActivityTimerScreen(
@@ -24,6 +35,24 @@ fun ActivityTimerScreen(
     viewModel: ActivityTimerViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState
+
+    val context = LocalContext.current
+    val timeFormatter = FormatLongAsTimeStringUseCase()
+    var elapsedTime by remember { mutableStateOf(0L) }
+    var isRunning by remember { mutableStateOf(false) }
+
+    val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent) {
+            val newElapsedTime = intent.getLongExtra(TimerService.BROADCAST_TIME_EXTRA, 0L)
+            val newIsRunning = intent.getBooleanExtra(TimerService.BROADCAST_RUNNING_EXTRA, false)
+            elapsedTime = newElapsedTime
+            isRunning = newIsRunning
+        }
+    }
+
+    LocalBroadcastManager.getInstance(context).registerReceiver(
+        broadcastReceiver, IntentFilter(TimerService.BROADCAST_ACTION)
+    )
 
     Scaffold(
         modifier = Modifier.fillMaxSize()
@@ -42,9 +71,21 @@ fun ActivityTimerScreen(
                 }
             }
             Text(text = uiState.activityName)
-            Text("0:00")
-            Button(onClick = { /*TODO*/ }) {
+            Text(elapsedTime.toString())
+            Button(onClick = {
+                isRunning = true
+                TimerService.start(
+                    context,
+                    categoryName = uiState.activityName,
+                    activityId = uiState.activityId)
+            }) {
                 Text(text = "Start")
+            }
+            Button(onClick = {
+                isRunning = false
+                TimerService.stop(context)
+            }) {
+                Text(text = "Stop")
             }
         }
     }

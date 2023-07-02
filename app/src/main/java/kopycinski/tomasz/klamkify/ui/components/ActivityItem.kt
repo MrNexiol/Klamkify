@@ -1,73 +1,50 @@
 package kopycinski.tomasz.klamkify.ui.components
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kopycinski.tomasz.domain.model.Activity
-import kopycinski.tomasz.domain.usecase.FormatLongAsTimeStringUseCase
-import kopycinski.tomasz.klamkify.R
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ActivityItem(
-    activity: Activity,
-    currentTime: Long = 0,
-    onStart: () -> Unit = {},
-    onStop: () -> Unit = {},
+    activityName: String,
     onClick: () -> Unit = {},
-    isActive: Boolean = false,
-    disabled: Boolean = false,
-    timeFormatter: FormatLongAsTimeStringUseCase
+    onLongClick: () -> Unit = {}
 ) {
-    Row(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(60.dp)
-            .padding(horizontal = 8.dp)
-            .clickable { onClick() },
-        verticalAlignment = Alignment.CenterVertically
+            .padding(horizontal = 16.dp, vertical = 4.dp)
+            .padding(start = 16.dp)
+            .clip(CardDefaults.shape)
+            .combinedClickable(
+                onClick = onClick,
+                onLongClick = onLongClick
+            )
+            .clip(CardDefaults.shape)
     ) {
-        Text(text = activity.name, modifier = Modifier.weight(1f))
-
-        if (!disabled) {
-            IconButton(
-                onClick = onStart,
-                Modifier.border(BorderStroke(5.dp, Color.Black))
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.PlayArrow,
-                    contentDescription = stringResource(id = R.string.start_timer, activity.name)
-                )
-            }
-        }
-
-        if (isActive) {
-            IconButton(
-                onClick = onStop,
-                Modifier
-                    .padding(end = 8.dp)
-                    .border(BorderStroke(5.dp, Color.Black))
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Stop,
-                    contentDescription = stringResource(id = R.string.stop_timer)
-                )
-            }
-            Text(text = timeFormatter(currentTime))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp)
+        ) {
+            Text(text = activityName)
         }
     }
+}
+
+@Preview
+@Composable
+fun NewActivityItemPreview() {
+    ActivityItem(activityName = "Activity")
 }
