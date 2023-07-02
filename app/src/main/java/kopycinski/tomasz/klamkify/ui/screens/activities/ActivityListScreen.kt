@@ -23,12 +23,12 @@ import kopycinski.tomasz.klamkify.ui.components.NewActivityItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ActivitiesScreen(
+fun ActivityListScreen(
     onFabClick: () -> Unit,
     onActivityClick: (Long) -> Unit,
     onActivityLongClick: (Long) -> Unit,
     onCategoryLongClick: (Long) -> Unit,
-    viewModel: ActivitiesViewModel = hiltViewModel()
+    viewModel: ActivityListViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.uiState.value
 

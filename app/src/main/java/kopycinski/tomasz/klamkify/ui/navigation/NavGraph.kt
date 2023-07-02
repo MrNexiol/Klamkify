@@ -10,15 +10,16 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import kopycinski.tomasz.klamkify.ui.navigation.DestinationArgs.ACTIVITY_ID_ARG
 import kopycinski.tomasz.klamkify.ui.navigation.DestinationArgs.CATEGORY_ID_ARG
-import kopycinski.tomasz.klamkify.ui.screens.activities.ActivitiesScreen
+import kopycinski.tomasz.klamkify.ui.screens.activities.ActivityListScreen
 import kopycinski.tomasz.klamkify.ui.screens.activityform.ActivityForm
 import kopycinski.tomasz.klamkify.ui.screens.activitydetails.ActivityDetails
+import kopycinski.tomasz.klamkify.ui.screens.activitytimer.ActivityTimerScreen
 import kopycinski.tomasz.klamkify.ui.screens.categoryform.CategoryFormScreen
 
 @Composable
 fun NavGraph(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = Destinations.ACTIVITIES_ROUTE,
+    startDestination: String = Destinations.ACTIVITY_LIST_ROUTE,
     navActions: NavigationActions = remember(navController) {
         NavigationActions(navController)
     }
@@ -27,20 +28,6 @@ fun NavGraph(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(
-            route = Destinations.ACTIVITY_FORM_ROUTE,
-            arguments = listOf(
-                navArgument(ACTIVITY_ID_ARG) {
-                    type = NavType.LongType
-                    defaultValue = -1L
-                }
-            )
-        ) {
-            ActivityForm(
-                onSuccessSave = { navController.popBackStack() },
-                onAddCategory = { navActions.navigateToCategoryForm() }
-            )
-        }
         composable(
             route = Destinations.ACTIVITY_DETAILS_ROUTE,
             arguments = listOf(
@@ -58,14 +45,39 @@ fun NavGraph(
             )
         }
         composable(
-            route = Destinations.ACTIVITIES_ROUTE
+            route = Destinations.ACTIVITY_FORM_ROUTE,
+            arguments = listOf(
+                navArgument(ACTIVITY_ID_ARG) {
+                    type = NavType.LongType
+                    defaultValue = -1L
+                }
+            )
         ) {
-            ActivitiesScreen(
+            ActivityForm(
+                onSuccessSave = { navController.popBackStack() },
+                onAddCategory = { navActions.navigateToCategoryForm() }
+            )
+        }
+        composable(
+            route = Destinations.ACTIVITY_LIST_ROUTE
+        ) {
+            ActivityListScreen(
                 onFabClick = { navActions.navigateToActivityForm() },
-                onActivityClick = { navActions.navigateToActivityDetails(it) },
+                onActivityClick = { navActions.navigateToActivityTimer(it) },
                 onActivityLongClick = { navActions.navigateToActivityForm(it) },
                 onCategoryLongClick = { navActions.navigateToCategoryForm(it) }
             )
+        }
+        composable(
+            route = Destinations.ACTIVITY_TIMER_ROUTE,
+            arguments = listOf(
+                navArgument(ACTIVITY_ID_ARG) {
+                    type = NavType.LongType
+                    defaultValue = -1L
+                }
+            )
+        ) {
+            ActivityTimerScreen()
         }
         composable(
             route = Destinations.CATEGORY_FORM_ROUTE,

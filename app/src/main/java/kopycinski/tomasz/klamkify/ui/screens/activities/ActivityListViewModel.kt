@@ -12,17 +12,17 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-data class ActivityUIState(
+data class ActivityListUIState(
     val categories: Map<Category, List<Activity>> = mapOf(),
     val extendedCategory: Long = -1
 )
 
 @HiltViewModel
-class ActivitiesViewModel @Inject constructor(
+class ActivityListViewModel @Inject constructor(
     private val getCategoriesWithActivitiesUseCase: GetCategoriesWithActivitiesUseCase
 ) : ViewModel() {
-    private val _uiState = mutableStateOf(ActivityUIState())
-    val uiState: State<ActivityUIState> = _uiState
+    private val _uiState = mutableStateOf(ActivityListUIState())
+    val uiState: State<ActivityListUIState> = _uiState
 
     init {
         getCategories()
@@ -31,7 +31,7 @@ class ActivitiesViewModel @Inject constructor(
     private fun getCategories() {
         getCategoriesWithActivitiesUseCase()
             .onEach {
-                _uiState.value = ActivityUIState(it)
+                _uiState.value = ActivityListUIState(it)
             }
             .launchIn(viewModelScope)
     }
