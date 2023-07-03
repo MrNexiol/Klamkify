@@ -31,6 +31,10 @@ object Destinations {
 }
 
 class NavigationActions(private val navController: NavHostController) {
+    fun navigateBack() {
+        navController.popBackStack()
+    }
+
     fun navigateToActivityDetails(activityId: Long) {
         navController.navigate(
             "$ACTIVITY_DETAILS_SCREEN/$activityId"

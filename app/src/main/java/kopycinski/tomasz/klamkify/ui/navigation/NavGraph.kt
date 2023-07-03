@@ -38,7 +38,7 @@ fun NavGraph(
             )
         ) { backStack ->
             ActivityDetails(
-                onDelete = { navController.navigateUp() },
+                onDelete = { navActions.navigateBack() },
                 onEdit = { navActions.navigateToActivityForm(backStack.arguments?.getLong(ACTIVITY_ID_ARG)!!) }
             )
         }
@@ -52,7 +52,7 @@ fun NavGraph(
             )
         ) {
             ActivityForm(
-                navigateBack = { navController.popBackStack() },
+                navigateBack = { navActions.navigateBack() },
                 onAddCategory = { navActions.navigateToCategoryForm() }
             )
         }
@@ -89,7 +89,7 @@ fun NavGraph(
             )
         ) {
             CategoryFormScreen(
-                navigateBack = { navController.popBackStack() }
+                navigateBack = { navActions.navigateBack() }
             )
         }
     }
