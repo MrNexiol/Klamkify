@@ -4,31 +4,31 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import kopycinski.tomasz.domain.usecase.FormatLongAsTimeStringUseCase
 import kopycinski.tomasz.klamkify.service.TimerService
+import kopycinski.tomasz.klamkify.ui.components.Timer
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ActivityTimerScreen(
     onDetailsClick: (Long) -> Unit,
@@ -37,7 +37,6 @@ fun ActivityTimerScreen(
     val uiState by viewModel.uiState
 
     val context = LocalContext.current
-    val timeFormatter = FormatLongAsTimeStringUseCase()
     var elapsedTime by remember { mutableStateOf(0L) }
     var isRunning by remember { mutableStateOf(false) }
 
@@ -55,38 +54,39 @@ fun ActivityTimerScreen(
     )
 
     Scaffold(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            TopAppBar(
+                title = { Text(text = uiState.activityName) },
+                actions = {
+                    IconButton(onClick = { onDetailsClick(uiState.activityId) }) {
+                        Icon(imageVector = Icons.Filled.Settings, contentDescription = "")
+                    }
+                }
+            )
+        }
     ) {
         Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .padding(it)
                 .fillMaxSize()
         ) {
-            Row(
-                horizontalArrangement = Arrangement.End,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                IconButton(onClick = { onDetailsClick(uiState.activityId) }) {
-                    Icon(imageVector = Icons.Filled.Info, contentDescription = "")
+            Timer(
+                secondsToShow = elapsedTime,
+                isRunning = isRunning,
+                onStartTimer = {
+                    isRunning = true
+                    TimerService.start(
+                        context,
+                        categoryName = uiState.activityName,
+                        activityId = uiState.activityId)
+                },
+                onStopTimer = {
+                    isRunning = false
+                    TimerService.stop(context)
                 }
-            }
-            Text(text = uiState.activityName)
-            Text(elapsedTime.toString())
-            Button(onClick = {
-                isRunning = true
-                TimerService.start(
-                    context,
-                    categoryName = uiState.activityName,
-                    activityId = uiState.activityId)
-            }) {
-                Text(text = "Start")
-            }
-            Button(onClick = {
-                isRunning = false
-                TimerService.stop(context)
-            }) {
-                Text(text = "Stop")
-            }
+            )
         }
     }
 }

@@ -22,7 +22,7 @@ class CategoryFormViewModel @Inject constructor(
     private val getCategoryUseCase: GetCategoryUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val categoryId: Long? = savedStateHandle[CATEGORY_ID_ARG]
+    private val categoryId: Long = savedStateHandle[CATEGORY_ID_ARG]!!
 
     private var _uiState = mutableStateOf(CategoryFormUIState())
     val uiState: State<CategoryFormUIState> = _uiState
@@ -32,9 +32,9 @@ class CategoryFormViewModel @Inject constructor(
     }
 
     private fun getCategory() {
-        categoryId?.let {
+        if (categoryId != -1L) {
             viewModelScope.launch {
-                val category = getCategoryUseCase(it)
+                val category = getCategoryUseCase(categoryId)
                 _uiState.value = uiState.value.copy(categoryName = category.name)
             }
         }

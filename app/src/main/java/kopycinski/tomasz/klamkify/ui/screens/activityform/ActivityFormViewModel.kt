@@ -30,7 +30,7 @@ class ActivityFormViewModel @Inject constructor(
     private val getActivityUseCase: GetActivityUseCase,
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
-    private val activityId: Long? = savedStateHandle[ACTIVITY_ID_ARG]
+    private val activityId: Long = savedStateHandle[ACTIVITY_ID_ARG]!!
 
     private var _uiState = mutableStateOf(ActivityFormUIState())
     val uiState: State<ActivityFormUIState> = _uiState
@@ -47,10 +47,10 @@ class ActivityFormViewModel @Inject constructor(
     }
 
     private fun getActivity() {
-        activityId?.let {
+        if (activityId != -1L) {
             viewModelScope.launch {
-                val activity = getActivityUseCase(it)
-                val category = _uiState.value.categoryList.singleOrNull() {
+                val activity = getActivityUseCase(activityId)
+                val category = _uiState.value.categoryList.singleOrNull {
                     it.categoryId == activity.parentCategoryId
                 }
                 _uiState.value = _uiState.value.copy(

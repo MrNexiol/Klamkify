@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
@@ -33,7 +32,6 @@ import kopycinski.tomasz.klamkify.R
 @Composable
 fun ActivityDetails(
     activityId: Long,
-    onBackPress: () -> Unit,
     onEdit: (Long) -> Unit,
     onDelete: () -> Unit,
     viewModel: ActivityDetailsViewModel = hiltViewModel()
@@ -52,14 +50,6 @@ fun ActivityDetails(
         topBar = {
             TopAppBar(
                 title = { Text(text = activityName) },
-                navigationIcon = {
-                    IconButton(onClick = onBackPress) {
-                        Icon(
-                            Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.return_to_previous_screen)
-                        )
-                    }
-                },
                 actions = {
                     IconButton(onClick = { onEdit(activityId) }) {
                         Icon(

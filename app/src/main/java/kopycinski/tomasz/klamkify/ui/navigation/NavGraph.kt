@@ -39,7 +39,6 @@ fun NavGraph(
         ) { backStack ->
             ActivityDetails(
                 activityId = backStack.arguments?.getLong(ACTIVITY_ID_ARG)!!,
-                onBackPress = { navController.navigateUp() },
                 onDelete = { navController.navigateUp() },
                 onEdit = { navActions.navigateToActivityForm(it) }
             )
