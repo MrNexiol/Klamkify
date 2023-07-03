@@ -7,8 +7,8 @@ import javax.inject.Inject
 class SaveActivityUseCase @Inject constructor(
     private val repository: ActivityRepository
 ) {
-    suspend operator fun invoke(name: String, categoryId: Long, activityId: Long?) {
-        if (activityId == null) {
+    suspend operator fun invoke(name: String, categoryId: Long, activityId: Long) {
+        if (activityId == -1L) {
             repository.insert(
                 Activity(name, categoryId, false)
             )

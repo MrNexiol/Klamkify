@@ -7,8 +7,8 @@ import javax.inject.Inject
 class SaveCategoryUseCase @Inject constructor(
     private val categoryRepository: CategoryRepository
 ) {
-    suspend operator fun invoke(name: String, categoryId: Long?) {
-        if (categoryId == null) {
+    suspend operator fun invoke(name: String, categoryId: Long) {
+        if (categoryId == -1L) {
             categoryRepository.insert(
                 Category(name)
             )

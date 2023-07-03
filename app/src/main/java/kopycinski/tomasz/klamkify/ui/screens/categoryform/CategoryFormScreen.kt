@@ -19,12 +19,13 @@ import kopycinski.tomasz.klamkify.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryFormScreen(
+    navigateBack: () -> Unit,
     viewModel: CategoryFormViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.uiState.value
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text(text = "Add category") }) }
+        topBar = { TopAppBar(title = { Text(text = stringResource(id = R.string.add_category)) }) }
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -36,10 +37,9 @@ fun CategoryFormScreen(
                 value = uiState.categoryName,
                 onValueChange = { viewModel.setCategoryName(it) }
             )
-            Button(onClick = { viewModel.saveCategory() }) {
+            Button(onClick = { viewModel.saveCategory().also { navigateBack() } }) {
                 Text(text = stringResource(id = R.string.save))
             }
         }
-
     }
 }

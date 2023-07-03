@@ -52,7 +52,7 @@ fun NavGraph(
             )
         ) {
             ActivityForm(
-                onSuccessSave = { navController.popBackStack() },
+                navigateBack = { navController.popBackStack() },
                 onAddCategory = { navActions.navigateToCategoryForm() }
             )
         }
@@ -88,7 +88,9 @@ fun NavGraph(
                 }
             )
         ) {
-            CategoryFormScreen()
+            CategoryFormScreen(
+                navigateBack = { navController.popBackStack() }
+            )
         }
     }
 }

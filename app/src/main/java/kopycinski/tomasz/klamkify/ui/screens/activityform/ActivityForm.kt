@@ -32,7 +32,7 @@ import kopycinski.tomasz.klamkify.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ActivityForm(
-    onSuccessSave: () -> Unit,
+    navigateBack: () -> Unit,
     onAddCategory: () -> Unit,
     viewModel: ActivityFormViewModel = hiltViewModel()
 ) {
@@ -43,20 +43,15 @@ fun ActivityForm(
     Scaffold(topBar = {
         TopAppBar(title = { Text(text = stringResource(id = R.string.add_activity)) })
     }) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .padding(8.dp)
-        ) {
+        Column(modifier = Modifier.padding(paddingValues)) {
             OutlinedTextField(
-                modifier = Modifier
-                    .padding(bottom = 8.dp)
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
                 value = uiState.activityName,
                 onValueChange = { viewModel.setActivityName(it) },
                 label = { Text(text = stringResource(id = R.string.name)) })
             Row(
-                verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
             ) {
                 ExposedDropdownMenuBox(
                     expanded = isDropdownExpanded,
@@ -98,13 +93,12 @@ fun ActivityForm(
                     )
                 }
             }
-            Button(onClick = {
-                viewModel.saveActivity()
-                onSuccessSave()
-            }) {
+            Button(
+                modifier = Modifier.padding(8.dp),
+                onClick = { viewModel.saveActivity().also { navigateBack() } }
+            ) {
                 Text(text = stringResource(id = R.string.save))
             }
         }
-
     }
 }
