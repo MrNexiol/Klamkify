@@ -23,12 +23,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kopycinski.tomasz.domain.usecase.FormatLongAsTimeStringUseCase
 import kopycinski.tomasz.klamkify.R
+import kopycinski.tomasz.klamkify.ui.components.SessionItem
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ActivityDetails(
     activityId: Long,
@@ -48,29 +47,15 @@ fun ActivityDetails(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(text = activityName) },
-                actions = {
-                    IconButton(onClick = { onEdit(activityId) }) {
-                        Icon(
-                            imageVector = Icons.Filled.Edit,
-                            contentDescription = stringResource(id = R.string.edit_category)
-                        )
-                    }
-                    IconButton(onClick = { showDialog = true }) {
-                        Icon(
-                            imageVector = Icons.Filled.Delete,
-                            contentDescription = stringResource(id = R.string.archive_category)
-                        )
-                    }
-                }
+            ActivityDetailsTopBar(
+                title = activityName,
+                onEdit = { onEdit(activityId) },
+                onDelete = { showDialog = true }
             )
         }
     ) { paddingValues ->
         LazyColumn(
-            Modifier
-                .padding(paddingValues)
-                .padding(8.dp)
+            modifier = Modifier.padding(paddingValues)
         ) {
             item {
                 Text(
@@ -86,29 +71,66 @@ fun ActivityDetails(
                 )
             }
             items(sessionList) {
-                Text(text = "${it.date} - ${timeFormatter(it.timeInSeconds)}")
+                SessionItem(sessionTime = it.timeInSeconds, sessionDate = it.date)
             }
         }
         if (showDialog) {
-            AlertDialog(
-                onDismissRequest = { showDialog = false },
-                title = { Text(text = stringResource(id = R.string.are_you_sure)) },
-                text = { Text(text = stringResource(id = R.string.archive_warning)) },
-                confirmButton = {
-                    Button(onClick = {
-                        viewModel.archiveActivity()
-                        showDialog = false
-                        onDelete()
-                    }) {
-                        Text(text = stringResource(id = R.string.sure))
-                    }
-                },
-                dismissButton = {
-                    Button(onClick = { showDialog = false }) {
-                        Text(text = stringResource(id = R.string.cancel))
-                    }
+            DeleteDialog(
+                onDismiss = { showDialog = false },
+                onConfirm = {
+                    viewModel.archiveActivity()
+                    showDialog = false
+                    onDelete()
                 }
             )
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ActivityDetailsTopBar(
+    title: String,
+    onEdit: () -> Unit,
+    onDelete: () -> Unit
+) {
+    TopAppBar(
+        title = { Text(text = title) },
+        actions = {
+            IconButton(onClick = onEdit) {
+                Icon(
+                    imageVector = Icons.Filled.Edit,
+                    contentDescription = stringResource(id = R.string.edit_category)
+                )
+            }
+            IconButton(onClick = onDelete) {
+                Icon(
+                    imageVector = Icons.Filled.Delete,
+                    contentDescription = stringResource(id = R.string.archive_category)
+                )
+            }
+        }
+    )
+}
+
+@Composable
+fun DeleteDialog(
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(text = stringResource(id = R.string.are_you_sure)) },
+        text = { Text(text = stringResource(id = R.string.archive_warning)) },
+        confirmButton = {
+            Button(onClick = onConfirm) {
+                Text(text = stringResource(id = R.string.sure))
+            }
+        },
+        dismissButton = {
+            Button(onClick = onDismiss) {
+                Text(text = stringResource(id = R.string.cancel))
+            }
+        }
+    )
 }
