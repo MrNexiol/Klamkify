@@ -38,9 +38,8 @@ fun NavGraph(
             )
         ) { backStack ->
             ActivityDetails(
-                activityId = backStack.arguments?.getLong(ACTIVITY_ID_ARG)!!,
                 onDelete = { navController.navigateUp() },
-                onEdit = { navActions.navigateToActivityForm(it) }
+                onEdit = { navActions.navigateToActivityForm(backStack.arguments?.getLong(ACTIVITY_ID_ARG)!!) }
             )
         }
         composable(

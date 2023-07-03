@@ -15,11 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -30,56 +26,39 @@ import kopycinski.tomasz.klamkify.ui.components.SessionItem
 
 @Composable
 fun ActivityDetails(
-    activityId: Long,
-    onEdit: (Long) -> Unit,
+    onEdit: () -> Unit,
     onDelete: () -> Unit,
+    timeFormatter: FormatLongAsTimeStringUseCase = FormatLongAsTimeStringUseCase(),
     viewModel: ActivityDetailsViewModel = hiltViewModel()
 ) {
-    var showDialog by remember { mutableStateOf(false) }
-    val timeFormatter = FormatLongAsTimeStringUseCase()
-    val activityName by viewModel.activityName
-    val totalTime by viewModel.totalTime
-    val sessionList by viewModel.sessionsList
+    val uiState by viewModel.uiState
 
-    LaunchedEffect(Any()) {
-        viewModel.refreshData(activityId)
-    }
-
-    Scaffold(
-        topBar = {
-            ActivityDetailsTopBar(
-                title = activityName,
-                onEdit = { onEdit(activityId) },
-                onDelete = { showDialog = true }
-            )
-        }
-    ) { paddingValues ->
+    Scaffold(topBar = {
+        ActivityDetailsTopBar(
+            title = uiState.activityName,
+            onEdit = onEdit,
+            onDelete = viewModel::showDialog)
+    }) { paddingValues ->
         LazyColumn(
             modifier = Modifier.padding(paddingValues)
         ) {
             item {
-                Text(
-                    text = stringResource(
-                        id = R.string.time_sum, timeFormatter(totalTime)
-                    )
-                )
+                Text(text = stringResource(
+                        id = R.string.time_sum, timeFormatter(uiState.totalTime)))
             }
             item {
-                Text(
-                    text = stringResource(id = R.string.activity_log),
-                    fontWeight = FontWeight.Bold
-                )
+                Text(text = stringResource(id = R.string.activity_log), fontWeight = FontWeight.Bold)
             }
-            items(sessionList) {
+            items(uiState.sessionList) {
                 SessionItem(sessionTime = it.timeInSeconds, sessionDate = it.date)
             }
         }
-        if (showDialog) {
+        if (uiState.isDialogShowing) {
             DeleteDialog(
-                onDismiss = { showDialog = false },
+                onDismiss = viewModel::dismissDialog,
                 onConfirm = {
                     viewModel.archiveActivity()
-                    showDialog = false
+                    viewModel.dismissDialog()
                     onDelete()
                 }
             )
@@ -90,27 +69,22 @@ fun ActivityDetails(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ActivityDetailsTopBar(
-    title: String,
-    onEdit: () -> Unit,
-    onDelete: () -> Unit
+    title: String, onEdit: () -> Unit, onDelete: () -> Unit
 ) {
-    TopAppBar(
-        title = { Text(text = title) },
-        actions = {
-            IconButton(onClick = onEdit) {
-                Icon(
-                    imageVector = Icons.Filled.Edit,
-                    contentDescription = stringResource(id = R.string.edit_category)
-                )
-            }
-            IconButton(onClick = onDelete) {
-                Icon(
-                    imageVector = Icons.Filled.Delete,
-                    contentDescription = stringResource(id = R.string.archive_category)
-                )
-            }
+    TopAppBar(title = { Text(text = title) }, actions = {
+        IconButton(onClick = onEdit) {
+            Icon(
+                imageVector = Icons.Filled.Edit,
+                contentDescription = stringResource(id = R.string.edit_category)
+            )
         }
-    )
+        IconButton(onClick = onDelete) {
+            Icon(
+                imageVector = Icons.Filled.Delete,
+                contentDescription = stringResource(id = R.string.archive_category)
+            )
+        }
+    })
 }
 
 @Composable
@@ -118,8 +92,7 @@ fun DeleteDialog(
     onDismiss: () -> Unit,
     onConfirm: () -> Unit,
 ) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
+    AlertDialog(onDismissRequest = onDismiss,
         title = { Text(text = stringResource(id = R.string.are_you_sure)) },
         text = { Text(text = stringResource(id = R.string.archive_warning)) },
         confirmButton = {
@@ -131,6 +104,5 @@ fun DeleteDialog(
             Button(onClick = onDismiss) {
                 Text(text = stringResource(id = R.string.cancel))
             }
-        }
-    )
+        })
 }
